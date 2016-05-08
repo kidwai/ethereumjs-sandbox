@@ -10,26 +10,26 @@ There are many different tools providing access to the Ethereum network. It is i
 # Installation
 
 ### Ubuntu ###
-	To install `geth` from PPA, run:
+To install `geth` from PPA, run:
 
 ```bash
-		sudo apt-get install software-properties-common
-		sudo add-apt-repository -y ppa:ethereum/ethereum
-		sudo apt-get update
-		sudo apt-get install ethereum
+	sudo apt-get install software-properties-common
+	sudo add-apt-repository -y ppa:ethereum/ethereum
+	sudo apt-get update
+	sudo apt-get install ethereum
 ```
 
 ### Mac ###
-	If you don't have `brew`, install it:
+If you don't have `brew`, install it:
 		
 ```bash
-		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
-	To install `geth`, run:
+To install `geth`, run:
 
 ```bash
-		brew tap ethereum/ethereum
-		brew install ethereum
+	brew tap ethereum/ethereum
+	brew install ethereum
 ```
 
 
