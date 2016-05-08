@@ -139,51 +139,50 @@ To do anything, we need Ether.
 
 In the other window, you will see something like this (the timestamps and program name have been ommitted to save space):
 
-```bash	
-Starting mining operation (CPU=8 TOT=9)
-Automatic pregeneration of ethash DAG ON (ethash dir: /home/momo/.ethash)
-commit new work on block 1 with 0 txs & 0 uncles. Took 110.399µs
-checking DAG (ethash dir: /home/momo/.ethash)
-Generating DAG for epoch 0 (size 1073739904) (0000000000000000000000000000000000000000000000000000000000000000)
-Generating DAG: 0%
-Generating DAG: 1%
-Generating DAG: 2%
-Generating DAG: 3%
-Generating DAG: 4%
-Generating DAG: 5%
-Generating DAG: 6%
-Generating DAG: 7%
-Generating DAG: 8%
-Generating DAG: 9%
-Generating DAG: 10%
-```
+	Starting mining operation (CPU=8 TOT=9)
+	Automatic pregeneration of ethash DAG ON (ethash dir: /home/momo/.ethash)
+	commit new work on block 1 with 0 txs & 0 uncles. Took 110.399µs
+	checking DAG (ethash dir: /home/momo/.ethash)
+	Generating DAG for epoch 0 (size 1073739904) (0000000000000000000000000000000000000000000000000000000000000000)
+	Generating DAG: 0%
+	Generating DAG: 1%
+	Generating DAG: 2%
+	Generating DAG: 3%
+	Generating DAG: 4%
+	Generating DAG: 5%
+	Generating DAG: 6%
+	Generating DAG: 7%
+	Generating DAG: 8%
+	Generating DAG: 9%
+	Generating DAG: 10%
+
 
 Once the [DAG](https://github.com/ethereum/wiki/blob/master/Dagger-Hashimoto.md) is generated, mining will start:
 
-```bash
-Generating DAG: 99%
-Generating DAG: 100%
-Done generating DAG for epoch 0, it took 4m18.16510184s
-Starting mining operation (CPU=8 TOT=9)
-commit new work on block 1 with 0 txs & 0 uncles. Took 129.44µs
-🔨  Mined block (#1 / 44d47c8c). Wait 5 blocks for confirmation
-commit new work on block 2 with 0 txs & 0 uncles. Took 150.156µs
-🔨  Mined block (#1 / 348b5a21). Wait 5 blocks for confirmation
-commit new work on block 2 with 0 txs & 0 uncles. Took 123.073µs
-commit new work on block 2 with 0 txs & 0 uncles. Took 977.309µs
-🔨  Mined stale block (#1 / 18c10b67). 
-commit new work on block 2 with 0 txs & 0 uncles. Took 191.801µs
-commit new work on block 2 with 0 txs & 0 uncles. Took 142.205971ms
-🔨  Mined block (#1 / d11b9cb6). Wait 5 blocks for confirmation
-commit new work on block 2 with 0 txs & 0 uncles. Took 28.898533ms
-commit new work on block 2 with 0 txs & 0 uncles. Took 122.455µs
-🔨  Mined block (#2 / cfb278cb). Wait 5 blocks for confirmation
-commit new work on block 3 with 0 txs & 0 uncles. Took 205.311µs
-🔨  Mined stale block (#2 / ac569b95). 
-commit new work on block 3 with 0 txs & 0 uncles. Took 146.449742ms
-commit new work on block 3 with 0 txs & 0 uncles. Took 156.201µs
-🔨  Mined block (#3 / 06152682). Wait 5 blocks for confirmation
-```
+
+	Generating DAG: 99%
+	Generating DAG: 100%
+	Done generating DAG for epoch 0, it took 4m18.16510184s
+	Starting mining operation (CPU=8 TOT=9)
+	commit new work on block 1 with 0 txs & 0 uncles. Took 129.44µs
+	🔨  Mined block (#1 / 44d47c8c). Wait 5 blocks for confirmation
+	commit new work on block 2 with 0 txs & 0 uncles. Took 150.156µs
+	🔨  Mined block (#1 / 348b5a21). Wait 5 blocks for confirmation
+	commit new work on block 2 with 0 txs & 0 uncles. Took 123.073µs
+	commit new work on block 2 with 0 txs & 0 uncles. Took 977.309µs
+	🔨  Mined stale block (#1 / 18c10b67). 
+	commit new work on block 2 with 0 txs & 0 uncles. Took 191.801µs
+	commit new work on block 2 with 0 txs & 0 uncles. Took 142.205971ms
+	🔨  Mined block (#1 / d11b9cb6). Wait 5 blocks for confirmation
+	commit new work on block 2 with 0 txs & 0 uncles. Took 28.898533ms
+	commit new work on block 2 with 0 txs & 0 uncles. Took 122.455µs
+	🔨  Mined block (#2 / cfb278cb). Wait 5 blocks for confirmation
+	commit new work on block 3 with 0 txs & 0 uncles. Took 205.311µs
+	🔨  Mined stale block (#2 / ac569b95). 
+	commit new work on block 3 with 0 txs & 0 uncles. Took 146.449742ms
+	commit new work on block 3 with 0 txs & 0 uncles. Took 156.201µs
+	🔨  Mined block (#3 / 06152682). Wait 5 blocks for confirmation
+
 
 By default, all mining rewards are deposited into the account at `web3.eth.accounts[0]`. In the console, you can verify the increasing balance:
 
@@ -210,16 +209,16 @@ true
 
 In the other window, you will see the transaction hash and destination address, followed by a log of a block mined with `1 txs`, a single transaction.
 
-```bash
-Tx(0x2d4e0ec822f65549116da31cb70d6d04b39d558e031b4927927a75cec87030ff) to: 0xd451d8e4cc7392c9a21ac8c0e23c6beac1343691
- commit new work on block 18 with 1 txs & 0 uncles. Took 793.931µs   // our transaction will be mined in block 18
-  🔨  Mined block (#18 / 57a17fa2). Wait 5 blocks for confirmation     // our transaction has been mined
- commit new work on block 19 with 0 txs & 0 uncles. Took 232.13µs
- commit new work on block 19 with 0 txs & 0 uncles. Took 260.54µs
- 🔨  Mined block (#19 / 6eae0bae). Wait 5 blocks for confirmation
- commit new work on block 20 with 0 txs & 0 uncles. Took 195.227µs
- commit new work on block 20 with 0 txs & 0 uncles. Took 183.743µs
-```
+
+	Tx(0x2d4e0ec822f65549116da31cb70d6d04b39d558e031b4927927a75cec87030ff) to: 0xd451d8e4cc7392c9a21ac8c0e23c6beac1343691
+	 commit new work on block 18 with 1 txs & 0 uncles. Took 793.931µs   // our transaction will be mined in block 18
+	  🔨  Mined block (#18 / 57a17fa2). Wait 5 blocks for confirmation     // our transaction has been mined
+	 commit new work on block 19 with 0 txs & 0 uncles. Took 232.13µs
+	 commit new work on block 19 with 0 txs & 0 uncles. Took 260.54µs
+	 🔨  Mined block (#19 / 6eae0bae). Wait 5 blocks for confirmation
+	 commit new work on block 20 with 0 txs & 0 uncles. Took 195.227µs
+	 commit new work on block 20 with 0 txs & 0 uncles. Took 183.743µs
+
 
 Confirm the payment has been received:
 
