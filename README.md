@@ -9,7 +9,7 @@ There are many different tools providing access to the Ethereum network. It is i
 
 # Installation
 
-	### Ubuntu ###
+### Ubuntu ###
 	To install `geth` from PPA, run:
 
 ```bash
@@ -19,7 +19,7 @@ There are many different tools providing access to the Ethereum network. It is i
 		sudo apt-get install ethereum
 ```
 
-	### Mac ###
+### Mac ###
 	If you don't have `brew`, install it:
 		
 ```bash
