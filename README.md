@@ -9,7 +9,7 @@ There are many different tools providing access to the Ethereum network. It is i
 
 # Installation
 
-	### Ubuntu
+	### Ubuntu ###
 	To install `geth` from PPA, run:
 
 ```bash
@@ -19,7 +19,7 @@ There are many different tools providing access to the Ethereum network. It is i
 		sudo apt-get install ethereum
 ```
 
-	### Mac
+	### Mac ###
 	If you don't have `brew`, install it:
 		
 ```bash
@@ -36,15 +36,15 @@ There are many different tools providing access to the Ethereum network. It is i
 # Starting a private node
 To keeps things simple for now, we will start by running a single node on a private network. This will allow us to inspect the basic data structures, objects, and procedures without the delay and complications of hopping onto an existing large-scale blockchain. To do this, we will use a custom genesis block. This is done by specifying the following key block details as a JSON file.
 
-	* nonce: 64-bit hash used with mixhash for proof-of-work
-	* timestamp: Unix-time value
-	* parentHash: Keccak 256-bit hash of parent block header
-	* gasLimit: Maximum amount of gas that can be expended in a single block
-	* difficulty: Determines the difficulty of mining this block
-	* mixhash: 256-bit hash used with nonce for proof-of-work
-	* coinbase: The address of the account in which mining rewards are deposited
-	* alloc: A specification of initial Ether allocations among accounts on the network
-	* extraData: Additional relevant block data, up to a maximum of 32 bytes
+* nonce: 64-bit hash used with mixhash for proof-of-work
+* timestamp: Unix-time value
+* parentHash: Keccak 256-bit hash of parent block header
+* gasLimit: Maximum amount of gas that can be expended in a single block
+* difficulty: Determines the difficulty of mining this block
+* mixhash: 256-bit hash used with nonce for proof-of-work
+* coinbase: The address of the account in which mining rewards are deposited
+* alloc: A specification of initial Ether allocations among accounts on the network
+* extraData: Additional relevant block data, up to a maximum of 32 bytes
 
 Save the following into a file called 'genesis.json'.
 
