@@ -113,7 +113,7 @@ null
 
 So, we have no accounts, our coinbase (default recipient of mined Ether) is null, we are on block number 0, and we can see within its information the data from our JSON file.
 
-### Accounts ###
+### Creating Accounts ###
 Everything in Ethereum starts with an account. The first type of account is called an *externally owned account*, and is created like so:
 
 ```javascript
@@ -228,5 +228,117 @@ Confirm the payment has been received:
 ```
 
 ### Contracts ###
+
+The main goal of this tutorial is start writing, building, and deploying smart contracts in Solidity, without having to worry too much about all of the lower level details.
+To make sure the Solidity compiler is installed, run `web3.eth.getCompilers()`. If this does not return an array containing 'Solidity' as an element, exit the console and run:
+
+```bash
+sudo apt-get install solc
+```
+
+Restart the console and verify that the compiler is available. If it is not, run:
+
+```bash
+$ which solc
+/usr/bin/solc
+```
+
+The output of this command provides the path to the solc compiler installed. Provide this path in the console like so:
+
+```javascript
+> admin.setSolc('/usr/bin/solc')
+"solc, the solidity compiler commandline interface\nVersion: 0.3.2-0/Release-Linux/g++/Interpreter\n\npath: /usr/bin/solc"
+```
+
+Type the following contract directly into a variable called source.
+
+```javascript
+> var source = 'contract adder { function add(uint a, uint b) returns (uint c) { return a+b;} }'
+```
+
+Compile this and save the output to a variable:
+
+```javascript
+> var compiled = web3.eth.compile.solidity(source)
+undefined
+> compiled
+{
+  adder: {
+    code: "0x6060604052602b8060106000396000f3606060405260e060020a6000350463771602f78114601a575b005b602435600435016060908152602090f3",
+    info: {
+      abiDefinition: [{...}],
+      compilerOptions: "--bin --abi --userdoc --devdoc --add-std --optimize -o /tmp/solc171650220",
+      compilerVersion: "0.3.2",
+      developerDoc: {
+        methods: {}
+      },
+      language: "Solidity",
+      languageVersion: "0.3.2",
+      source: "contract adder { function add(uint a, uint b) returns (uint c) {return a+b;} }",
+      userDoc: {
+        methods: {}
+      }
+    }
+  }
+}
+```
+
+The code contained in the `compiled.adder.code` field is the byte code that will be run on the Ethereum Vritual Machine (EVM). The `info` section contains metadata on the contract, including a field `abiDefinition`, which serves as an interface for creating contracts. To do this, run:
+
+```javascript
+> var adder_contract = web3.eth.contract(compiled.adder.info.abiDefinition)
+undefined
+> adder_contract
+{
+  abi: [{
+      constant: false,
+      inputs: [{...}, {...}],
+      name: "add",
+      outputs: [{...}],
+      type: "function"
+  }],
+  at: function(address, callback),
+  new: function()
+}
+```
+
+Towards the bottom is a function called `new`. It is this function that is used to deploy the contract to the blockchain. To do this, define the following callback function:
+
+```javascript
+function tx_callback (e, contract) {
+	if (!e) {
+		if (!contract.address) {
+			console.log("Transaction Hash: " + contract.transactionHash + " waiting to be mined.");	
+		} else {
+			console.log("Transaction mined at address " + contract.address)
+		}
+	}
+}
+```
+
+Then, invoke the `new` function like so:
+
+```javascript
+> var code = compiled.adder.code
+> code
+"0x6060604052602b8060106000396000f3606060405260e060020a6000350463771602f78114601a575b005b602435600435016060908152602090f3"
+> var primary = web3.eth.accounts[0]
+> var adder = adder_contract.new({from: primary, data: code, gas: 1000000}, tx_callback)
+Unlock account 7a47376c00308be583e1ea5e7a610d58dce68744 // unlock account to authorize payment
+Passphrase: 
+Transaction Hash: 0xe8ac2ba57281a8ec274993c605f44c2b854ce40adb1d3069cf7b5210b01dd0e0 waiting to be mined.
+```
+
+In the logs, you will see a similar set of messages to those obtained from sending Ether between accounts. After some delay, the transaction will be mined, and the resulting `adder` can be invoked:
+
+```javascript
+> Transaction mined at address 0x783ce9eb8d98cb3554ed34f04751f9665ecb80eb
+> adder.add.call(2,3)
+5
+> adder.add.call(200,3)
+203
+```
+
+So, after all of that, we can, with some confidence, asssert that 2+3 and 200+3 are indeed 5 and 203, respectively. As underwhelming as this is, it is not hard to automate essentially everything we did aside from writing the Solidity code, after which the process becomes one of simply building and deploying. There are a number of different approaching to achieving this. A simple approach that keeps us, for the most part, in the command-line, calls for use of Node.js. We want to recreate the environment familiar to us from traditional programming, in which one might program in an external editor, then build and run their program from a shell. 
 
 ### Node.js ###
