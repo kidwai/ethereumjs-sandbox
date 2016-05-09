@@ -339,6 +339,45 @@ In the logs, you will see a similar set of messages to those obtained from sendi
 203
 ```
 
-So, after all of that, we can, with some confidence, asssert that 2+3 and 200+3 are indeed 5 and 203, respectively. As underwhelming as this is, it is not hard to automate essentially everything we did aside from writing the Solidity code, after which the process becomes one of simply building and deploying. There are a number of different approaching to achieving this. A simple approach that keeps us, for the most part, in the command-line, calls for use of Node.js. We want to recreate the environment familiar to us from traditional programming, in which one might program in an external editor, then build and run their program from a shell. 
+So, after all of that, we can, with some confidence, asssert that 2+3 and 200+3 are indeed 5 and 203, respectively. As underwhelming as this is, it is not hard to automate essentially everything we did aside from writing the Solidity code, after which the process becomes one of simply building and deploying. 
 
-### Node.js ###
+A simple approach that keeps us, for the most part, in the command-line, calls for use of Node.js. We want to recreate the environment familiar to us from traditional programming, in which one might program in an external editor, then build and run their program from a shell. 
+
+### Install Node.js ###
+
+
+### Connecting with Node.js ###
+	To connect to a `geth` node using Node.js, run geth and expose an RPC-API:
+```bash
+$ geth --rpc --rpcapi "eth,web3,personal,net" --mine
+```
+
+This will start an Ethereum node, expose the api specified via RPC, and start mining. To connect via Node.js, run `nodejs` in another terminal, and execute the following comands:
+
+```javascript
+> var web3 = require('web3')
+> var web3 = new web3(new web3.providers.HttpProvider("http://localhost:8545"))
+> web3.eth.accounts
+[ '0x7706451891f0b56932cf38fb8b905570955e3a67',
+  '0xfecbed9ff28864771b82bee3f3ddb5b49c452ce4',
+  '0x18951bb8187ef6a8e2e2d3c7c89348f7013c6134',
+  '0xe1c1f27e853dbb7de4c59de8151a633e1a5f29a4' ]
+```
+
+We now have access to the tools from the `geth` console. Importantly, though, we can now use Node.js to use more advanced scripting features, interacting with our filesystem. To start, let's automate some of the commands appearing often, and save it in a file called 'startup.js'.
+
+```javascript
+/* Add some shortcuts to commonly used accounts */
+var A = web3.eth.accounts[0]
+var B = web3.eth.accounts[1]
+
+/* Function to check balances of all accounts */
+function checkBalances() {
+	web3.eth.accounts.forEach ( function(acc) {
+		console.log(web3.fromWei.eth.getBalance(acc)))
+	})
+}
+```
+
+Now, when running a nodejs session, we can run `.load startup.js` to execute the javascript in the above file.
+
