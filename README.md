@@ -323,9 +323,8 @@ Then, invoke the `new` function like so:
 > code
 "0x6060604052602b8060106000396000f3606060405260e060020a6000350463771602f78114601a575b005b602435600435016060908152602090f3"
 > var primary = web3.eth.accounts[0]
+> personal.unlockAccount(primary, 'strong password that no one will guess') //  replace with your password
 > var adder = adder_contract.new({from: primary, data: code, gas: 1000000}, tx_callback)
-Unlock account 7a47376c00308be583e1ea5e7a610d58dce68744 // unlock account to authorize payment
-Passphrase: 
 Transaction Hash: 0xe8ac2ba57281a8ec274993c605f44c2b854ce40adb1d3069cf7b5210b01dd0e0 waiting to be mined.
 ```
 
