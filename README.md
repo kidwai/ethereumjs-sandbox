@@ -366,6 +366,9 @@ This will start an Ethereum node, expose the api specified via RPC, and start mi
 We now have access to the tools from the `geth` console. Importantly, though, we can now use Node.js to use more advanced scripting features, interacting with our filesystem. To start, let's automate some of the commands appearing often, and save it in a file called 'startup.js'.
 
 ```javascript
+var web3 = require('web3')
+var web3 = new web3(new web3.providers.HttpProvider("http://localhost:8545"))
+
 /* Add some shortcuts to commonly used accounts */
 var A = web3.eth.accounts[0]
 var B = web3.eth.accounts[1]
@@ -378,5 +381,78 @@ function checkBalances() {
 }
 ```
 
-Now, when running a nodejs session, we can run `.load startup.js` to execute the javascript in the above file.
+Now, when running a nodejs session, we can run `.load startup.js` to execute the javascript in the above file. The most important processes to automate, for our purposes, will be building and deploying contracts from .sol files. To do this, add the following to the file `startup.js`. 
 
+```javascript
+// module for accessing the filesystem
+var fs = require('fs')
+
+// callback function for reading from files
+function fs_callback (e, contents) { console.log(contents);}
+
+// read source from specified path and return string
+function get_source(path) { return fs.readFileSync(path, 'utf8', fs_callback);}
+
+// shortcut for compiling with solidity
+function solc(source) { return web3.eth.compile.solidity(source);}
+
+// tx_callback from earlier
+function tx_callback(e, contract) {
+    if (!e) {
+	if (!contract.address) {
+	    console.log("Contract transaction send: TransactionHash: " + contract.transactionHash + " waiting to be mined...");
+	} else { 
+	    console.log("Contract mined! Address: " + contract.address);
+	}
+    }
+}
+
+// shortcut for creating a contract from abi, directly after compilation
+function contract(compiled) { return web3.eth.contract(compiled.info.abiDefinition); }
+
+
+// build a contract directly from path. name specifies name of contract within
+// the given .sol file
+function build(path, name) {
+	var source = get_source(path);
+	var compiled = solc(source)[name];
+	var code = compiled.code;
+	var c = contract(compiled);
+	return {'contract': c, 'code': code};
+}
+
+
+// c - output from build, a built contract, together with byte code
+// ind - index in web3.eth.accounts of account to deploy from
+// password - password for above account
+// args(optional) - arguments for 'constructor' of contract c
+function deploy (c, ind, password, args) {
+	web3.personal.unlockAccount(acc[ind], password);
+	con = c['contract'];
+	code = c['code'];
+	if (typeof args == "undefined") {
+		return con.new({from:acc[ind], data:code, gas:1000000}, tx_callback);
+	}
+	return con.new(args, {from:acc[ind], data:code, gas:1000000}, tx_callback);
+}
+```
+
+Before going through the details of each line in the `startup.js` file, just observe the result. Instead of doing all of that nonsense from before, we can instead just write the solidity code in an ordinary external text editor, then build it from a nodejs session.
+
+Save the source for the adder contract in a file `adder.sol`.
+
+```javascript
+contract adder {
+	function add(uint a, uint b) returns (uint c) { return a + b; }
+}
+```
+
+Then, in a nodejs session,
+
+```javascript
+> .load startup.js
+> var adder_contract = build('adder.sol', 'adder')
+> var adder = deploy(adder_contract, 0, 'strong password that no one will guess')
+> Contract transaction send: TransactionHash: 0x6a142fb14216614b6d82e88d19294c870067ea83ec11c769560fa7f867d886f0 waiting to be mined...
+Contract mined! Address: 0x67a62d7001cf8e5e75f5bca773b44e52608c63f6
+```
