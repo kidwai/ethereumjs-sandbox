@@ -344,6 +344,11 @@ A simple approach that keeps us, for the most part, in the command-line, calls f
 
 ### Install Node.js ###
 
+```bash
+sudo apt-get install nodejs
+npm install web3
+```
+
 
 ### Connecting with Node.js ###
 	To connect to a `geth` node using Node.js, run geth and expose an RPC-API:
