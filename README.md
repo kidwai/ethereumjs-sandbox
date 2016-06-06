@@ -4,7 +4,7 @@ As you probably know, a blockchain is a sort of ledger, maintained and updated o
 
 There is a lot of hype (and money) being thrown around in Ethereum land right now. But from what I've observed, very few people seem to understand the technology. Many of these same people appear to advocate its utility, with little more than speculative and esoteric visions of a 'blockchain economy'. I don't mean to discourage any visionaries or theoreticians among us. Rather, I hope to, at a minumum, encourage and help facilitate experiment in blockchain applications in a setting that is not too complicated.
 
-The aim is to set up an environment for writing smart contracts in Ethereum, while sticking with a text editor and the command-line. We will set up a private blockchain and look into some simple applications, so we can get a real, tangible sense of what this is good for and how it performs. 
+The aim is to set up an environment for writing smart contracts in Ethereum, while sticking with a text editor and the command-line. We will set up a private blockchain and look into some simple applications, so we can get a real, tangible sense of what this is good for, how it performs, and where we stand in the realm of practical application (not far). 
 
 I am therefore going to be asking myself a lot of questions that may seem very basic to some. I may, as well, be doing some programming that may seem complex, or, at least, contrived. The hope is that by reading along and mimicing the keystrokes, you can get some sense of what is going on. 
 
