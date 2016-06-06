@@ -12,13 +12,13 @@ I am therefore going to be asking myself a lot of questions that may seem very b
 That being said, I make no guarantee whatsoever that this will provide you with any form of satisfaction, enlightenment, or understanding - I am probably not much less confused than you.
 
 
-## Basic Idea ## 
+## Basic Idea 
 
 As you probably know, a blockchain is a sort of ledger, maintained and updated over time through a peer-to-peer consensus algorithm. The key innovation of the Ethereum blockchain is the ability to do more than just make financial transactions, effectively throwing value from one 'account' to another. Instead, through the use of the Etheruem virtual machine, peers can have their programs executed on the Ethereum network, enabling automatic peer to peer interactions without the overhead of an intermediary. Without the absence of the intermediary, this would just be another paradigm for fault-tolerant distributed computing. 
 
 
 
-## Installation ##
+## Installation 
 
 ### Ubuntu ###
 To install `geth` from PPA, run:
