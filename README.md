@@ -1,7 +1,6 @@
 # Introduction
 
-Ethereum is a secure decentralized platform facilitating arbitrarily complex computations. For an overview, read the [white paper](https://github.com/ethereum/wiki/wiki/White-Paper). For detail, read the [yellow paper](http://gavwood.com/paper.pdf).
-
+As you probably know, a blockchain is a sort of ledger, maintained and updated over time through a peer-to-peer consensus algorithm. The key innovation of the Ethereum blockchain is the ability to do more than just make financial transactions, effectively throwing value from one 'account' to another. Instead, through the use of the Etheruem virtual machine, peers can have their programs executed on the Ethereum network, enabling automatic peer to peer interactions without the overhead of an intermediary. Without the absence of the intermediary, this would just be another paradigm for fault-tolerant distributed computing. 
 
 There is a lot of hype (and money) being thrown around in Ethereum land right now. But from what I've observed, very few people seem to understand the technology. Many of these same people appear to advocate its utility, with little more than speculative and esoteric visions of a 'blockchain economy'. I don't mean to discourage any visionaries or theoreticians among us. Rather, I hope to, at a minumum, encourage and help facilitate experiment in blockchain applications in a setting that is not too complicated.
 
@@ -10,12 +9,6 @@ The aim is to set up an environment for writing smart contracts in Ethereum, whi
 I am therefore going to be asking myself a lot of questions that may seem very basic to some. I may, as well, be doing some programming that may seem complex, or, at least, contrived. The hope is that by reading along and mimicing the keystrokes, you can get some sense of what is going on. 
 
 That being said, I make no guarantee whatsoever that this will provide you with any form of satisfaction, enlightenment, or understanding - I am probably not much less confused than you.
-
-
-## Basic Idea 
-
-As you probably know, a blockchain is a sort of ledger, maintained and updated over time through a peer-to-peer consensus algorithm. The key innovation of the Ethereum blockchain is the ability to do more than just make financial transactions, effectively throwing value from one 'account' to another. Instead, through the use of the Etheruem virtual machine, peers can have their programs executed on the Ethereum network, enabling automatic peer to peer interactions without the overhead of an intermediary. Without the absence of the intermediary, this would just be another paradigm for fault-tolerant distributed computing. 
-
 
 
 ## Installation 
@@ -42,8 +35,6 @@ To install `geth`, run:
 brew tap ethereum/ethereum
 brew install ethereum
 ```
-
-
 
 # Starting a private node
 To keeps things simple for now, we will start by running a single node on a private network. This will allow us to inspect the basic data structures, objects, and procedures without the delay and complications of hopping onto an existing large-scale blockchain. To do this, we will use a custom genesis block. This is done by specifying the following key block details as a JSON file.
