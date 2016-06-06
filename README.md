@@ -397,6 +397,9 @@ Contract mined! Address: 0x67a62d7001cf8e5e75f5bca773b44e52608c63f6
 3
 ```
 
+### A Simple Token
+
+
 Now that we finally have some basic setup, let's have a look at a simple token contract [a simplified version of the token contract described here: https://www.ethereum.org/token]. This is actually more powerful than it might seem, since in principal, a token can be used to represent such things as money, property, or voting rights. Importantly, though, is just how distant these applications are from us at the moment. Right now (Spring 2016), we are seeing proof of concepts for applications that do not actually seem anywhere close to practical application. Nevertheless, we are going to try to take this simple notion of a token to build some simple financial services, then get a sense of how a blockchain network handles these.
 
 Save the following in a file called `token.sol`. 
