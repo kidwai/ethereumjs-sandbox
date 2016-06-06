@@ -413,11 +413,11 @@ contract  token {
 		balanceOf[msg.sender] = initial_supply;
 	}
 
-	function transfer(uint256 _to, address _value) {
-		if (balanceOf[msg.sener] < _value) throw;
-		if (balanceOf[_to] + _value < balanceOf[_to]) throw;
+	function transfer(address _receiver, uint256 _value) {
+		if (balanceOf[msg.sender] < _value) throw;
+		if (balanceOf[_receiver] + _value < balanceOf[_receiver]) throw;
 		balanceOf[msg.sender] -= _value;
-		balanceOf[_to] += _value;
+		balanceOf[_receiver] += _value;
 	}
 }
 ```
