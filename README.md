@@ -232,7 +232,7 @@ Confirm the payment has been received:
 
 ### Contracts ###
 
-The main goal of this tutorial is start writing, building, and deploying smart contracts in Solidity, without having to worry too much about all of the lower level details.
+
 To make sure the Solidity compiler is installed, run `web3.eth.getCompilers()`. If this does not return an array containing 'Solidity' as an element, exit the console and run:
 
 ```bash
@@ -256,7 +256,7 @@ The output of this command provides the path to the solc compiler installed. Pro
 Type the following contract directly into a variable called source.
 
 ```javascript
-> var source = 'contract adder { function add(uint a, uint b) returns (uint c) { return a+b;} }'
+> var source = 'contract adder { function add(uint a, uint b) constant returns (uint c) { return a+b;} }'
 ```
 
 Compile this and save the output to a variable:
@@ -335,15 +335,15 @@ In the logs, you will see a similar set of messages to those obtained from sendi
 
 ```javascript
 > Transaction mined at address 0x783ce9eb8d98cb3554ed34f04751f9665ecb80eb
-> adder.add.call(2,3)
+> parseInt(adder.add(2,3))
 5
-> adder.add.call(200,3)
+> parseInt(adder.add(200,3))
 203
 ```
 
 So, after all of that, we can, with some confidence, asssert that 2+3 and 200+3 are indeed 5 and 203, respectively. As underwhelming as this is, it is not hard to automate essentially everything we did aside from writing the Solidity code, after which the process becomes one of simply building and deploying. 
 
-A simple approach that keeps us, for the most part, in the command-line, calls for use of Node.js. We want to recreate the environment familiar to us from traditional programming, in which one might program in an external editor, then build and run their program from a shell. 
+To recreate the environment familiar to us from traditional programming, in which one might program in an external editor, then build and run their program from a shell, we will turn to nodejs. 
 
 ### Install Node.js ###
 
@@ -354,9 +354,12 @@ npm install web3
 
 
 ### Connecting with Node.js ###
-	To connect to a `geth` node using Node.js, run geth and expose an RPC-API:
+
+	Run geth with the arguments below. Don't worry about what all the flags mean right now. If you can't go on without understanding them, just read the information provided with `geth --help`. 
+
+
 ```bash
-$ geth --rpc --rpcapi "eth,web3,personal,net" --mine
+$ geth --rpc --rpcapi "eth,web3,personal,net,miner,admin" --networkid 123 console
 ```
 
 This will start an Ethereum node, expose the api specified via RPC, and start mining. To connect via Node.js, run `nodejs` in another terminal, and execute the following comands:
@@ -365,93 +368,20 @@ This will start an Ethereum node, expose the api specified via RPC, and start mi
 > var web3 = require('web3')
 > var web3 = new web3(new web3.providers.HttpProvider("http://localhost:8545"))
 > web3.eth.accounts
-[ '0x7706451891f0b56932cf38fb8b905570955e3a67',
-  '0xfecbed9ff28864771b82bee3f3ddb5b49c452ce4',
-  '0x18951bb8187ef6a8e2e2d3c7c89348f7013c6134',
-  '0xe1c1f27e853dbb7de4c59de8151a633e1a5f29a4' ]
+[ '0x56e9f2fffc8fde5f0419a7c63e15f6d67ddbd228',
+  '0x14aaf671e0d9f0dec3555dcf2f572bdb05932319' ]
+
 ```
 
-We now have access to the tools from the `geth` console. Importantly, though, we can now use Node.js to use more advanced scripting features, interacting with our filesystem. To start, let's automate some of the commands appearing often, and save it in a file called 'startup.js'.
+We now have access to the tools from the `geth` console. Importantly, though, we can now use Node.js to use more advanced scripting features, interacting with our filesystem. To start, let's automate some of the commands appearing often, and save it in a file called 'startup.js'. I have included this file in the folder `js`. To use them directly, just clone or download the this repository, then in your nodejs session, run `.load js/startup.js`. 
 
-```javascript
-var web3 = require('web3')
-var web3 = new web3(new web3.providers.HttpProvider("http://localhost:8545"))
-
-/* Add some shortcuts to commonly used accounts */
-var A = web3.eth.accounts[0]
-var B = web3.eth.accounts[1]
-
-/* Function to check balances of all accounts */
-function checkBalances() {
-	web3.eth.accounts.forEach ( function(acc) {
-		console.log(web3.fromWei.eth.getBalance(acc)))
-	})
-}
-```
-
-Now, when running a nodejs session, we can run `.load startup.js` to execute the javascript in the above file. The most important processes to automate, for our purposes, will be building and deploying contracts from .sol files. To do this, add the following to the file `startup.js`. 
-
-```javascript
-// module for accessing the filesystem
-var fs = require('fs')
-
-// callback function for reading from files
-function fs_callback (e, contents) { console.log(contents);}
-
-// read source from specified path and return string
-function get_source(path) { return fs.readFileSync(path, 'utf8', fs_callback);}
-
-// shortcut for compiling with solidity
-function solc(source) { return web3.eth.compile.solidity(source);}
-
-// tx_callback from earlier
-function tx_callback(e, contract) {
-    if (!e) {
-	if (!contract.address) {
-	    console.log("Contract transaction send: TransactionHash: " + contract.transactionHash + " waiting to be mined...");
-	} else { 
-	    console.log("Contract mined! Address: " + contract.address);
-	}
-    }
-}
-
-// shortcut for creating a contract from abi, directly after compilation
-function contract(compiled) { return web3.eth.contract(compiled.info.abiDefinition); }
-
-
-// build a contract directly from path. name specifies name of contract within
-// the given .sol file
-function build(path, name) {
-	var source = get_source(path);
-	var compiled = solc(source)[name];
-	var code = compiled.code;
-	var c = contract(compiled);
-	return {'contract': c, 'code': code};
-}
-
-
-// c - output from build, a built contract, together with byte code
-// ind - index in web3.eth.accounts of account to deploy from
-// password - password for above account
-// args(optional) - arguments for 'constructor' of contract c
-function deploy (c, ind, password, args) {
-	web3.personal.unlockAccount(acc[ind], password);
-	con = c['contract'];
-	code = c['code'];
-	if (typeof args == "undefined") {
-		return con.new({from:acc[ind], data:code, gas:1000000}, tx_callback);
-	}
-	return con.new(args, {from:acc[ind], data:code, gas:1000000}, tx_callback);
-}
-```
-
-Before going through the details of each line in the `startup.js` file, just observe the result. Instead of doing all of that nonsense from before, we can instead just write the solidity code in an ordinary external text editor, then build it from a nodejs session.
+Before going through the details of each line in the `startup.js` file, just observe the result. Instead of doing all of that nonsense from before, we can instead just write the solidity code in an ordinary external text editor, then built and deploy it from a nodejs session.
 
 Save the source for the adder contract in a file `adder.sol`.
 
 ```javascript
 contract adder {
-	function add(uint a, uint b) returns (uint c) { return a + b; }
+	function add(uint a, uint b) constant returns (uint c) { return a + b; }
 }
 ```
 
@@ -463,4 +393,26 @@ Then, in a nodejs session,
 > var adder = deploy(adder_contract, 0, 'strong password that no one will guess')
 > Contract transaction send: TransactionHash: 0x6a142fb14216614b6d82e88d19294c870067ea83ec11c769560fa7f867d886f0 waiting to be mined...
 Contract mined! Address: 0x67a62d7001cf8e5e75f5bca773b44e52608c63f6
+> parseInt(adder.add(1,2))
+3
+```
+
+Now that we finally have some basic setup, let's have a look at a simple token contract [a simplified version of the token contract described here: ethereum.org/token]. This is actually more powerful than it might seem, since in principal, a token can be used to represent such things as money, property, or voting rights. 
+
+
+```solidity
+contract  token {
+	mapping (address => uint256) public balanceOf;
+	
+	function token (uint initial_supply) {
+		balanceOf[msg.sender] = initial_supply;
+	}
+
+	function transfer(uint256 _to, address _value) {
+		if (balanceOf[msg.sener] < _value) throw;
+		if (balanceOf[_to] + _value < balanceOf[_to]) throw;
+		balanceOf[msg.sender] -= _value;
+		balanceOf[_to] += _value;
+	}
+}
 ```
