@@ -1,0 +1,26 @@
+{
+	"name": "kidwai-ethereum-starter",
+	"version": "1.0.0",
+	"description": "starter pack for go ethereum on ubuntu",
+
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/kidwai/etheruem-tutorial.git"
+	},
+	"keywords": [
+		"ethereum",
+		"nodejs",
+		"simple",
+		"blockchain",
+		"cli"
+	],
+	"author": "Mohammad Kidwai",
+	"dependencies": {
+	"web3": "~0.15.3",
+	"cron": "~1.1.0"
+	},
+	"bugs": {
+	"url": "https://github.com/kidwai/ethereum-tutorial/issues"
+	},
+	"homepage": "https://github.com/kidwai/ethereum-tutorial#readme"
+}

@@ -21,6 +21,7 @@ sudo apt-get install software-properties-common
 sudo add-apt-repository -y ppa:ethereum/ethereum
 sudo apt-get update
 sudo apt-get install ethereum
+sudo apt-get install solc
 ```
 
 ### Mac ###
@@ -29,12 +30,57 @@ If you don't have `brew`, install it:
 ```bash
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
-To install `geth`, run:
+To install `geth` and `solc`, the Solidity compiler, run:
 
 ```bash
 brew tap ethereum/ethereum
 brew install ethereum
+brew install cpp-ethereum
+brew linkapps cpp-ethereum
 ```
+
+# Quick-Start
+
+0) See installation.
+
+1) Clone this repository and run `npm install`.
+
+2) Run `chmod 755 private-chain-start.sh && ./private-chain-start.sh`
+
+3) Run these commands once the prompt `>` shows [I have suppressed the output for brevity]. 
+
+```
+> miner.setEtherbase(personal.newAccount("strong password"));
+> miner.start();
+> personal.unlockAccount(web3.eth.accounts[0], "strong password");
+> admin.setSolc('/usr/bin/solc');
+```
+
+4) Launch another terminal window in the same directory. Run `node`.
+
+6) Enter `.load js/startup.js`. 
+
+7) To deploy a smart contract given only a .sol file, enter `deploy(name)`,
+where `name` is the name of the contract in the file named 'name.sol'. Here is an example (included in the repo)
+
+```
+> adder = deploy('adder');
+```
+
+8) Wait for the contract to be mined. 
+
+```javascript
+> Transaction mined at address 0x783ce9eb8d98cb3554ed34f04751f9665ecb80eb
+> parseInt(adder.add(2,3))
+5
+> parseInt(adder.add(200,3))
+203
+```
+
+9) Add numbers.
+
+10) Give self pat on back.
+
 
 # Starting a private node
 To keeps things simple for now, we will start by running a single node on a private network. This will allow us to inspect the basic data structures, objects, and procedures without the delay and complications of hopping onto an existing large-scale blockchain. To do this, we will use a custom genesis block. This is done by specifying the following key block details as a JSON file.
@@ -385,10 +431,10 @@ contract adder {
 }
 ```
 
-Then, in a nodejs session,
+Then, in a nodeJS session,
 
 ```javascript
-> .load startup.js
+> .load js/startup.js
 > var adder_contract = build('adder.sol', 'adder')
 > var adder = deploy(adder_contract, 0, 'strong password that no one will guess')
 > Contract transaction send: TransactionHash: 0x6a142fb14216614b6d82e88d19294c870067ea83ec11c769560fa7f867d886f0 waiting to be mined...
