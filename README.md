@@ -20,8 +20,9 @@ To install `geth` from PPA, run:
 sudo apt-get install software-properties-common
 sudo add-apt-repository -y ppa:ethereum/ethereum
 sudo apt-get update
-sudo apt-get install ethereum
-sudo apt-get install solc
+sudo apt-get install -y ethereum
+sudo apt-get install -y solc
+sudo apt-get install -y nodejs
 ```
 
 ### Mac ###
@@ -37,6 +38,7 @@ brew tap ethereum/ethereum
 brew install ethereum
 brew install cpp-ethereum
 brew linkapps cpp-ethereum
+brew install node
 ```
 
 # Quick-Start
