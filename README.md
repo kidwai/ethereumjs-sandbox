@@ -43,13 +43,10 @@ brew install node
 
 # Quick-Start
 
-**0: **	See installation.
-
-**1: **	Clone this repository and run `npm install`.
-
-**2: **	Run `chmod 755 private-chain-start.sh && ./private-chain-start.sh`
-
-**3: **	Run these commands once the prompt `>` shows [I have suppressed the output for brevity]. 
+* See installation.
+* Clone this repository and run `npm install`.
+* Run `chmod 755 private-chain-start.sh && ./private-chain-start.sh`
+* Run these commands once the prompt `>` shows [I have suppressed the output for brevity]. 
 
 ```
 > miner.setEtherbase(personal.newAccount("strong password"));
@@ -58,24 +55,23 @@ brew install node
 > admin.setSolc('/usr/bin/solc');
 ```
 
-**4: **	Launch another terminal window in the same directory. Run `node`.
+* Launch another terminal window in the same directory. Run `node`.
+*Enter `.load js/startup.js`. 
 
-**5: **	Enter `.load js/startup.js`. 
-
-**6: **	To deploy a smart contract given only a .sol file, enter `deploy(name)`,
+* To deploy a smart contract given only a .sol file, enter `deploy(name)`,
 where `name` is the name of the contract in the file named 'name.sol'. Here is an example (included in the repo)
 
 ```
 > adder = deploy('adder');
 ```
 
-**7: **	Wait for the contract to be mined. 
+* Wait for the contract to be mined. 
 
 ```javascript
 > Transaction mined at address 0x783ce9eb8d98cb3554ed34f04751f9665ecb80eb
 ```
 
-**8: **	Add numbers.
+*Add numbers.
 ```javascript
 > parseInt(adder.add(2,3))
 5
@@ -83,10 +79,11 @@ where `name` is the name of the contract in the file named 'name.sol'. Here is a
 203
 ```
 
+*Give self pat on back.
 
-**9: **	Give self pat on back.
+# Still Pretty Quick Start
 
-# Starting a private node
+### Starting a private node ###
 To keeps things simple for now, we will start by running a single node on a private network. This will allow us to inspect the basic data structures, objects, and procedures without the delay and complications of hopping onto an existing large-scale blockchain. To do this, we will use a custom genesis block. This is done by specifying the following key block details as a JSON file.
 
 * nonce: 64-bit hash used with mixhash for proof-of-work
