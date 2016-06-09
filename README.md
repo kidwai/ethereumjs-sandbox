@@ -58,7 +58,7 @@ brew install node
 > admin.setSolc('/usr/bin/solc');
 ```
 
-**4**	Launch another terminal window in the same directory. Run `node`.
+**4**		Launch another terminal window in the same directory. Run `node`.
 
 **5**	Enter `.load js/startup.js`. 
 
