@@ -437,7 +437,8 @@ Then, in a nodeJS session,
 ```javascript
 > .load js/startup.js
 > var adder_contract = build('adder.sol', 'adder')
-> var adder = deploy(adder_contract, 0, 'strong password that no one will guess')
+> web3.personal.unlockAccount(web3.eth.accounts[0], 'strong password that no one will guess')
+> var adder = deploy(adder_contract)
 > Contract transaction send: TransactionHash: 0x6a142fb14216614b6d82e88d19294c870067ea83ec11c769560fa7f867d886f0 waiting to be mined...
 Contract mined! Address: 0x67a62d7001cf8e5e75f5bca773b44e52608c63f6
 > parseInt(adder.add(1,2))
