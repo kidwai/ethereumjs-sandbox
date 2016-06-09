@@ -41,7 +41,7 @@ brew linkapps cpp-ethereum
 brew install node
 ```
 
-# Quick-Start
+## Quick-Start
 
 * See installation.
 * Clone this repository and run `npm install`.
@@ -81,7 +81,7 @@ where `name` is the name of the contract in the file named 'name.sol'. Here is a
 
 * Give self pat on back.
 
-# Still Pretty Quick Start
+## Still-Pretty-Quick-Start
 
 ### Starting a private node ###
 To keeps things simple for now, we will start by running a single node on a private network. This will allow us to inspect the basic data structures, objects, and procedures without the delay and complications of hopping onto an existing large-scale blockchain. To do this, we will use a custom genesis block. This is done by specifying the following key block details as a JSON file.
