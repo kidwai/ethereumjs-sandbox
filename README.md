@@ -71,7 +71,7 @@ where `name` is the name of the contract in the file named 'name.sol'. Here is a
 > Transaction mined at address 0x783ce9eb8d98cb3554ed34f04751f9665ecb80eb
 ```
 
-*Add numbers.
+* Add numbers.
 ```javascript
 > parseInt(adder.add(2,3))
 5
@@ -79,7 +79,7 @@ where `name` is the name of the contract in the file named 'name.sol'. Here is a
 203
 ```
 
-*Give self pat on back.
+* Give self pat on back.
 
 # Still Pretty Quick Start
 
