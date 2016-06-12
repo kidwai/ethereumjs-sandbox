@@ -1,17 +1,12 @@
-# Introduction
+# Ethereum
 
-At present (June 2016), the experimental Ethereum blockchain is growing quite popular.
 The key innovation of the Ethereum blockchain is the ability to do more than just make financial transactions. Instead, through the use of the Etheruem virtual machine, peers can have their programs executed on the Ethereum network. 
 
-
-From what I've observed, very few people seem to understand the technology. Nevertheless, many people advocate its utility, with little more than speculative and esoteric visions of a 'blockchain economy'. 
+From what I've observed, very few people seem to understand blockchain technology. Nevertheless, many people advocate its utility, with little more than speculative and esoteric visions of a 'blockchain economy'. 
 
 I don't mean to discourage any visionaries or theoreticians among us. Rather, I hope to, at a minumum, encourage and help facilitate experiment in blockchain applications in a setting that is not too complicated, while avoiding IDEs or Blockchain as a service platforms [I don't feel these should be necessary to write a simple Hello, World program].
 
 The aim is to have a system to easily get started with your favourite text editor and the command line, run multiple nodes, monitor those nodes, test basic features of the network, rapidly execute smart contracts, and perform unit tests.
-
-Perhaps writing this will make things a bit more clear for myself. Perhaps by reading along and mimicking the keystrokes, you can get some sense of what is going on, then go into more depth afterwards.
-
 
 Below you will find a very short description and some simple examples. For (much) more detail on how I arrived at these and where I am going, see the [wiki](https://github.com/kidwai/ethereum-tutorial/wiki), but keep in mind, this is all very much a work in progress.
 
@@ -22,7 +17,7 @@ Below you will find a very short description and some simple examples. For (much
 * You should read the Ethereum [white paper](https://github.com/ethereum/wiki/wiki/White-Paper).
 * You should be comfortable with some form of programming.
 
-# Usage
+# Installation
 
 We will use 'geth', the go-lang implementation of Ethereum to run our nodes, together with node.js to communicate with them. 
 
@@ -52,7 +47,7 @@ brew linkapps cpp-ethereum
 brew install node
 ```
 
-### Quick-Start
+### Usage
 
 ###### I'm not going to explain much here - this is intended for cloning and coding right away. If you have a look into any of the code, you'll see it's basically just a few wrappers around `geth` functions.
 
