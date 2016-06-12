@@ -13,9 +13,9 @@ I don't mean to discourage any visionaries or theoreticians among us. Rather, I 
 
 Every other tutorial or discussion I came across either involved an IDE, or an online compiler. I don't want to use an IDE, or an online compiler, if for no other reason, to not click my mouse to the browser and copy-paste content to run my programs. I don't think this should be necessary to write a 'Hello World!' program, and I feel it takes away significantly from the understanding of what is going on. 
 
-The aim is to have a system to easily get started with your favourite text editor and the command line, run multiple nodes, monitor those nodes, test basic features of the network, rapidly execute smart contracts, and perform unit tests. Not all of these goals will be met right away, as I do have other work to do. 
+The aim is to have a system to easily get started with your favourite text editor and the command line, run multiple nodes, monitor those nodes, test basic features of the network, rapidly execute smart contracts, and perform unit tests. 
 
-The hope is that writing this will make things a bit more clear for myself. Perhaps by reading along and mimicking the keystrokes, you can get some sense of what is going on. 
+Perhaps writing this will make things a bit more clear for myself. Perhaps by reading along and mimicking the keystrokes, you can get some sense of what is going on. 
 
 That being said, I make no guarantee whatsoever that this will provide you with any form of satisfaction, enlightenment, or understanding - I am probably not much less confused than you.
 
