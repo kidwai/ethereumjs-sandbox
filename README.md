@@ -54,7 +54,7 @@ brew install node
 
 ### Quick-Start
 
-### I'm not going to explain much here - this is intended for cloning and coding right away. If you have a look into any of the code, you'll see it's basically just a few wrappers around `geth` functions. 
+###### I'm not going to explain much here - this is intended for cloning and coding right away. If you have a look into any of the code, you'll see it's basically just a few wrappers around `geth` functions.
 
 * See installation.
 * Clone or download this repository
