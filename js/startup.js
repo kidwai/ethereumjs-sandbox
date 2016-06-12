@@ -5,8 +5,6 @@ var cron = require('cron');
 web3 = new web3(new web3.providers.HttpProvider('http://localhost:8545'))
 web3.eth.defaultAccount = web3.eth.coinbase;
 
-
-
 function checkBalances() {
 	web3.eth.accounts.forEach( function(acc) {
 		console.log(web3.fromWei(web3.eth.getBalance(acc)))	
@@ -29,13 +27,19 @@ function build(name) {
 	var code = compiled.code;
 	var con = make_contract(compiled);
 	return {'contract': con, 'code': code};}
+
 function deploy (c, args) {
-	if (typeof c == "string") { deploy(build(c), args);}
+	// the case where this is invoked directly by
+	// name of the contract
+	if (typeof c == "string") { return deploy(build(c), args);}
 	else {
 		con = c['contract'];
 		code = c['code'];
 		if (typeof args == "undefined") {
 			return con.new({from:web3.eth.defaultAccount, data:code}, tx_callback);
-		}	
-		return con.new(args, {from:web3.eth.defaultAccount, data:code}, tx_callback);} 
+		}
+		return con.new(args, { from:web3.eth.defaultAccount,
+							   data:code,
+							   gas: 3000000},tx_callback);} 
 }
+

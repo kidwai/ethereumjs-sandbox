@@ -1,17 +1,28 @@
 # Introduction
 
-As you probably know, a blockchain is a sort of ledger, maintained and updated over time through a peer-to-peer consensus algorithm. The key innovation of the Ethereum blockchain is the ability to do more than just make financial transactions, effectively throwing value from one 'account' to another. Instead, through the use of the Etheruem virtual machine, peers can have their programs executed on the Ethereum network, enabling automatic peer to peer interactions without the overhead of an intermediary. Without the absence of the intermediary, this would just be another paradigm for fault-tolerant distributed computing. 
 
-There is a lot of hype (and money) being thrown around in Ethereum land right now. But from what I've observed, very few people seem to understand the technology. Nevertheless, many people advocate its utility, with little more than speculative and esoteric visions of a 'blockchain economy'. I don't mean to discourage any visionaries or theoreticians among us. Rather, I hope to, at a minumum, encourage and help facilitate experiment in blockchain applications in a setting that is not too complicated, while avoiding IDEs or Blockchain as a service platforms that, while abstracting away many difficulties, have personally not satisfied my curiosity for the structure and operation of the underlying networks.
+A blockchain is a type of distributed database, maintained and updated over time through a peer-to-peer consensus algorithm, determining the next 'block' in sequence. This architecture was originally made popular in 2008, when the Bitcoin blockchain showed promise as a peer-to-peer system for financial transactions. 
 
-The aim is therefore to set up an environment for writing smart contracts in Ethereum, while sticking with a text editor and the command-line. We will set up a private blockchain and look into some simple applications, so we can get a real, tangible sense of what this is good for, how it performs, and where we stand in the realm of practical application (not far - scalability remains an issue).
+At present (June 2016), the experimental Ethereum blockchain is growing quite popular.
+The key innovation of the Ethereum blockchain is the ability to do more than just make financial transactions. Instead, through the use of the Etheruem virtual machine, peers can have their programs executed on the Ethereum network. 
 
-The hope is that writing this will make things a bit more clear for myself. Perhaps by reading along and mimicing the keystrokes, you can get some sense of what is going on. 
+
+From what I've observed, very few people seem to understand the technology. Nevertheless, many people advocate its utility, with little more than speculative and esoteric visions of a 'blockchain economy'. 
+
+I don't mean to discourage any visionaries or theoreticians among us. Rather, I hope to, at a minumum, encourage and help facilitate experiment in blockchain applications in a setting that is not too complicated, while avoiding IDEs or Blockchain as a service platforms.
+
+Every other tutorial or discussion I came across either involved an IDE, or an online compiler. I don't want to use an IDE, or an online compiler, if for no other reason, to not click my mouse to the browser and copy-paste content to run my programs. I don't think this should be necessary to write a 'Hello World!' program, and I feel it takes away significantly from the understanding of what is going on. 
+
+The aim is to have a system to easily get started with your favourite text editor and the command line, run multiple nodes, monitor those nodes, test basic features of the network, rapidly execute smart contracts, and perform unit tests. Not all of these goals will be met right away, as I do have a day job. 
+
+The hope is that writing this will make things a bit more clear for myself. Perhaps by reading along and mimicking the keystrokes, you can get some sense of what is going on. 
 
 That being said, I make no guarantee whatsoever that this will provide you with any form of satisfaction, enlightenment, or understanding - I am probably not much less confused than you.
 
 
 ## Installation 
+
+We will use 'geth', the go-lang implementation of Ethereum to run our nodes. We will use nodeJS to connect to our nodes locally, then build and execute smart contracts.
 
 ### Ubuntu ###
 To install `geth` from PPA, run:
@@ -20,9 +31,7 @@ To install `geth` from PPA, run:
 sudo apt-get install software-properties-common
 sudo add-apt-repository -y ppa:ethereum/ethereum
 sudo apt-get update
-sudo apt-get install -y ethereum
-sudo apt-get install -y solc
-sudo apt-get install -y nodejs
+sudo apt-get install -y ethereum solc nodejs
 ```
 
 ### Mac ###
@@ -44,19 +53,26 @@ brew install node
 ## Quick-Start
 
 * See installation.
-* Clone this repository and run `npm install`.
-* Run `chmod 755 private-chain-start.sh && ./private-chain-start.sh`
-* Run these commands once the prompt `>` shows [I have suppressed the output for brevity]. 
+* Clone this repository
 
 ```
-> miner.setEtherbase(personal.newAccount("strong password"));
+git clone https://github.com/kidwai/ethereum-tutorial
+```
+
+* Run `npm install` from within the new directory.
+* Run `which solc`, and note its output. For me, it is `/usr/bin/solc`.
+* Run `./private-chain-start.sh`
+* Once the prompt `>` appears, run these commands, replacing '/usr/bin/solc', with your `which solc` output. 
+
+```
+>miner.setEtherbase(personal.newAccount("strong password"));
 > miner.start();
 > personal.unlockAccount(web3.eth.accounts[0], "strong password");
-> admin.setSolc('/usr/bin/solc');
+> admin.setSolc('/usr/bin/solc'); 
 ```
 
 * Launch another terminal window in the same directory. Run `node`.
-*Enter `.load js/startup.js`. 
+* Enter `.load js/startup.js`. 
 
 * To deploy a smart contract given only a .sol file, enter `deploy(name)`,
 where `name` is the name of the contract in the file named 'name.sol'. Here is an example (included in the repo)
@@ -81,10 +97,14 @@ where `name` is the name of the contract in the file named 'name.sol'. Here is a
 
 * Give self pat on back.
 
+
+From here, you should write your smart contracts, and put them in the `sol` directory, then deploy them like above. This is admittedly not a polished or complicated setup. I am basically just trying to make things easier for myself - so any additional features will come with time. 
+
+
 ## Still-Pretty-Quick-Start
 
 ### Starting a private node ###
-To keeps things simple for now, we will start by running a single node on a private network. This will allow us to inspect the basic data structures, objects, and procedures without the delay and complications of hopping onto an existing large-scale blockchain. To do this, we will use a custom genesis block. This is done by specifying the following key block details as a JSON file.
+To keeps things simple for now, we will start by running a single node on a private network. This will allow us to inspect the basic data structures, objects, and procedures without the delay and complications of hopping onto an existing large-scale blockchain. To do this, we will use a custom genesis block (the first block in the blockchain). This is done by specifying the following key block details as a JSON file.
 
 * nonce: 64-bit hash used with mixhash for proof-of-work
 * timestamp: Unix-time value
@@ -279,27 +299,6 @@ Confirm the payment has been received:
 
 ### Contracts ###
 
-
-To make sure the Solidity compiler is installed, run `web3.eth.getCompilers()`. If this does not return an array containing 'Solidity' as an element, exit the console and run:
-
-```bash
-sudo apt-get install solc
-```
-
-Restart the console and verify that the compiler is available. If it is not, run:
-
-```bash
-$ which solc
-/usr/bin/solc
-```
-
-The output of this command provides the path to the solc compiler installed. Provide this path in the console like so:
-
-```javascript
-> admin.setSolc('/usr/bin/solc')
-"solc, the solidity compiler commandline interface\nVersion: 0.3.2-0/Release-Linux/g++/Interpreter\n\npath: /usr/bin/solc"
-```
-
 Type the following contract directly into a variable called source.
 
 ```javascript
@@ -390,19 +389,13 @@ In the logs, you will see a similar set of messages to those obtained from sendi
 
 So, after all of that, we can, with some confidence, asssert that 2+3 and 200+3 are indeed 5 and 203, respectively. As underwhelming as this is, it is not hard to automate essentially everything we did aside from writing the Solidity code, after which the process becomes one of simply building and deploying. 
 
-To recreate the environment familiar to us from traditional programming, in which one might program in an external editor, then build and run their program from a shell, we will turn to nodejs. 
 
-### Install Node.js ###
-
-```bash
-sudo apt-get install nodejs
-npm install web3
-```
+This whole process seems weird, slow, and convoluted. I found it worth seeing at least once to motivate the use of nodeJS.
 
 
 ### Connecting with Node.js ###
 
-	Run geth with the arguments below. Don't worry about what all the flags mean right now. If you can't go on without understanding them, just read the information provided with `geth --help`. 
+Run geth with the arguments below. Don't worry about what all the flags mean right now. If you can't go on without understanding them, just read the information provided with `geth --help`. By the way, this is the command executed by the script `private-chain-start.sh`.
 
 
 ```bash
@@ -445,10 +438,13 @@ Contract mined! Address: 0x67a62d7001cf8e5e75f5bca773b44e52608c63f6
 3
 ```
 
+
+
+
 ### A Simple Token
 
 
-Now that we finally have some basic setup, let's have a look at a simple token contract [a simplified version of the token contract described here: https://www.ethereum.org/token]. This is actually more powerful than it might seem, since in principal, a token can be used to represent such things as money, property, or voting rights. Importantly, though, is just how distant these applications are from us at the moment. Right now (Spring 2016), we are seeing proof of concepts for applications that do not actually seem anywhere close to practical application. Nevertheless, we are going to try to take this simple notion of a token to build some simple financial services, then get a sense of how a blockchain network handles these.
+Now that we finally have some basic setup, let's have a look at a simple token contract [a simplified version of the token contract described here: https://www.ethereum.org/token]. This is actually more powerful than it might seem, since in principal, a token can be used to represent such things as money, property, or voting rights. We are going to try to take this simple notion of a token to build some simple financial services, then get a sense of how a blockchain network handles these.
 
 Save the following in a file called `token.sol`. 
 
@@ -469,3 +465,9 @@ contract  token {
 	}
 }
 ```
+
+
+### A Simple Performance Test 
+
+
+### More Nodes
