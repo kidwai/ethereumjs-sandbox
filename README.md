@@ -57,12 +57,7 @@ brew install node
 ###### I'm not going to explain much here - this is intended for cloning and coding right away. If you have a look into any of the code, you'll see it's basically just a few wrappers around `geth` functions.
 
 * See installation.
-* Clone or download this repository
-
-```
-git clone https://github.com/kidwai/ethereum-tutorial.git
-```
-
+* Clone this repository: `git clone https://github.com/kidwai/ethereum-tutorial.git`, or download the [zip](https://github.com/kidwai/ethereum-tutorial/archive/master.zip).
 * Open a shell to the new directory and run `npm install && npm start quick`. This will run a single `geth` node, create an account, start mining on a private blockchain, and provide log information in `logs/geth.log`.
 * (Optional) Geth logs provide valuable information about the inner workings of your node, your transactions, and the state of the network. You can keep an eye on the log file by opening a separate shell in the same directory and running `tail -f logs/geth.log`. I typically keep this in at least my peripheral vision at all times, for each node. 
 * Enter `node run interactive`. This will connect you to the node and leave you in an interactive javacsript REPL console. 
