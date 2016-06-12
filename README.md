@@ -13,7 +13,7 @@ The aim is to have a system to easily get started with your favourite text edito
 Perhaps writing this will make things a bit more clear for myself. Perhaps by reading along and mimicking the keystrokes, you can get some sense of what is going on, then go into more depth afterwards.
 
 
-Below you will find a very short description and some examples of what I am using this for. For more detail on how I arrived at these, and where I am going, see the (wiki)[https://github.com/kidwai/ethereum-tutorial/wiki]. 
+Below you will find a very short description and some simple examples. For (much) more detail on how I arrived at these and where I am going, see the [wiki](https://github.com/kidwai/ethereum-tutorial/wiki), but keep in mind, this is all very much a work in progress.
 
 
 # Prerequisites
@@ -54,6 +54,8 @@ brew install node
 
 ### Quick-Start
 
+### I'm not going to explain much here - this is intended for cloning and coding right away. If you have a look into any of the code, you'll see it's basically just a few wrappers around `geth` functions. 
+
 * See installation.
 * Clone or download this repository
 
@@ -61,7 +63,8 @@ brew install node
 git clone https://github.com/kidwai/ethereum-tutorial.git
 ```
 
-* Open a shell to the new directory and run `npm install && npm start quick`. This will run a single `geth` node, create an account, and start mining on a private blockchain. 
+* Open a shell to the new directory and run `npm install && npm start quick`. This will run a single `geth` node, create an account, start mining on a private blockchain, and provide log information in `logs/geth.log`.
+* (Optional) Geth logs provide valuable information about the inner workings of your node, your transactions, and the state of the network. You can keep an eye on the log file by opening a separate shell in the same directory and running `tail -f logs/geth.log`. I typically keep this in at least my peripheral vision at all times, for each node. 
 * Enter `node run interactive`. This will connect you to the node and leave you in an interactive javacsript REPL console. 
 * Write your smart contracts in any text editor, save them in the `sol` directory with a `.sol` extension.
 * To deploy a smart contract, just enter `deploy(name)`, where `name` is the name of the contract in the file named 'name.sol'.
@@ -95,7 +98,7 @@ Contract mined! Address: 0x73453ff26f284aa2ac302ae1cb0bd728fe5f2a06
 1 
 ```
 
-As a simple exercise, we can use this ticker to see how the (currently lonely) network handles transactions of this sort. To do this, I'll use `node-cron`, a node module for scheduled execution of programs and functions. Here is how you would print the unix timestamp every second:
+As a simple exercise, we can use this ticker to see how the (currently lonely) network handles transactions of this sort. To do this, we'll use `node-cron`, a node module for periodic execution of programs and functions therein. Here is how you would print the unix timestamp every second:
 
 ```javascript
 > var cron = require('cron');
@@ -115,11 +118,12 @@ As a simple exercise, we can use this ticker to see how the (currently lonely) n
 cronJob.stop()
 ```
 
-The first argument to `cron.job` is a 'cron pattern'. The only field I will be adjusting is the first asterisk, as it determines the seconds. The second argument is the function to execute at each period. For simplicity, I've wrapped this in a function, that takes just the periodicity (in seconds) and the function to execute. 
+The first argument to `cron.job` is a 'cron pattern'. The only field I will be adjusting is the first asterisk, as it determines the seconds. The second argument is the function to execute at each period. For simplicity, I've wrapped this in a function, that takes just the periodicity (in seconds) and the function to execute. You can invoke it in your interactive sessions with `test.periodic_do(periodicity, function-to-execute)`.
+
 
 ### A Simple Token
 
-```
+```javascript
 contract  token {
     mapping (address => uint256) public balanceOf;
 
@@ -136,4 +140,3 @@ contract  token {
 }
 ```
 
-cronJob.stop()
