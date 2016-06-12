@@ -50,9 +50,6 @@ brew linkapps cpp-ethereum
 brew install node
 ```
 
-## Needs to be updated to fit with new approach.
-
-
 ## Quick-Start
 
 * See installation.
@@ -63,22 +60,10 @@ git clone https://github.com/kidwai/ethereum-tutorial
 ```
 
 * Run `npm install` from within the new directory.
-* Run `which solc`, and note its output. For me, it is `/usr/bin/solc`.
-* Run `./private-chain-start.sh`
-* Once the prompt `>` appears, run these commands, replacing '/usr/bin/solc', with your `which solc` output. 
-
-```
->miner.setEtherbase(personal.newAccount("strong password"));
-> miner.start();
-> personal.unlockAccount(web3.eth.accounts[0], "strong password");
-> admin.setSolc('/usr/bin/solc'); 
-```
-
-* Launch another terminal window in the same directory. Run `node`.
-* Enter `.load js/startup.js`. 
-
-* To deploy a smart contract given only a .sol file, enter `deploy(name)`,
-where `name` is the name of the contract in the file named 'name.sol'. Here is an example (included in the repo)
+* Run `npm start quick`.
+* Run `node run interactive`.
+* Write your smart contracts in any text editor, save them in the `sol` directory with a `.sol` extension.
+* To deploy a smart contract, just enter `deploy(name)`, where `name` is the name of the contract in the file named 'name.sol'. Here is an example (included in the repo)
 
 ```
 > adder = deploy('adder');
@@ -100,8 +85,6 @@ where `name` is the name of the contract in the file named 'name.sol'. Here is a
 
 * Give self pat on back.
 
-
-From here, you should write your smart contracts, and put them in the `sol` directory, then deploy them like above. This is admittedly not a polished or complicated setup. I am basically just trying to make things easier for myself - so any additional features will come with time. 
 
 
 ## Still-Pretty-Quick-Start
