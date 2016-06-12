@@ -1,6 +1,7 @@
 const repl = require('repl');
 var web3 = require('web3');
 var fs = require('fs');
+var test = require('./test.js')
 web3 = new web3(new web3.providers.HttpProvider('http://localhost:8545'));
 web3.eth.defaultAccount = web3.eth.coinbase;
 
@@ -32,6 +33,7 @@ if(interactive)
 	session.context.web3 = web3;
 	session.context.build = build;
 	session.context.deploy = deploy;
+	session.context.test = test;
 }
 
 
