@@ -108,7 +108,7 @@ As a simple exercise, we can use this ticker to see how the (currently lonely) n
 cronJob.stop()
 ```
 
-The first argument to `cron.job` is a 'cron pattern'. The only field I will be adjusting is the first asterisk, as it determines the seconds. The second argument is the function to execute at each period. For simplicity, I've wrapped this in a function, that takes just the periodicity (in seconds) and the function to execute. You can invoke it in your interactive sessions with `test.periodic_do(periodicity, function-to-execute)`.
+The first argument to `cron.job` is a 'cron pattern'. The only field I will be adjusting is the first asterisk, as it determines the seconds. The second argument is the function to execute at each period.
 
 
 ### A Simple Token
