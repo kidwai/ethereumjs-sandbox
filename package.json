@@ -1,8 +1,12 @@
 {
 	"name": "kidwai-ethereum-starter",
 	"version": "1.0.0",
+	"scripts": {
+		"start": "./sh/geth-setup.sh",
+		"run": "node run",
+		"stop": "./sh/geth-stop.sh"		
+	},
 	"description": "starter pack for go ethereum on ubuntu",
-
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/kidwai/etheruem-tutorial.git"
@@ -15,6 +19,7 @@
 		"cli"
 	],
 	"author": "Mohammad Kidwai",
+	"license": "MIT",
 	"dependencies": {
 	"web3": "~0.15.3",
 	"cron": "~1.1.0"
