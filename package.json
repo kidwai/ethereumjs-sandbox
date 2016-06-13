@@ -2,7 +2,9 @@
 	"name": "kidwai-ethereum-starter",
 	"version": "1.0.0",
 	"scripts": {
-		"start": "./sh/geth-setup.sh"
+		"start": "./sh/geth-setup.sh",
+		"info": "ps aux | grep geth | grep -v grep",
+		"reset": "rm -rf ~/.ethereum ~/.web3"
 	},
 	"description": "starter pack for go ethereum on ubuntu",
 	"repository": {
@@ -19,8 +21,9 @@
 	"author": "Mohammad Kidwai",
 	"license": "MIT",
 	"dependencies": {
-	"web3": "~0.15.3",
-	"cron": "~1.1.0"
+	"web3": ">=0.15.3",
+	"mocha": ">=2.5.3",
+	"chai": ">=3.5.0"
 	},
 	"bugs": {
 	"url": "https://github.com/kidwai/ethereum-tutorial/issues"
