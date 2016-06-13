@@ -88,28 +88,17 @@ Contract mined! Address: 0x73453ff26f284aa2ac302ae1cb0bd728fe5f2a06
 1 
 ```
 
-As a simple exercise, we can use this ticker to see how the (currently lonely) network handles transactions of this sort. To do this, we'll use `node-cron`, a node module for periodic execution of programs and functions therein. Here is how you would print the unix timestamp every second:
+As a simple exercise, we can use this ticker to see how the  network handles transactions of this sort. I've wrapped the functions to set a timeout on a periodically executing function so they can be invoked in the interactive sessions through `test.periodic_do(n, m, func)`, where `n` is the period in milliseconds, `m` is the number of periods, and `func` is the function to execute at each period. So, to execute the tick function once every 5 seconds, for a total of 50 seconds, we would run
 
 ```javascript
-> var cron = require('cron');
-> var cronJob = new cron.job('* * * * *  *', function() {console.log(Date.now());});
-> cronJob.start();
-> 1465745502069
-1465745503071
-1465745504071
-1465745505072
-1465745506073
-1465745507076
-1465745508074
-1465745509076
-1465745510077
-1465745511079
-1465745512081
-cronJob.stop()
+> test.periodic_do(ticker.tick, 5000, 10)
+undefined
+> tick
+tick
+tick
+tick
+tick
 ```
-
-The first argument to `cron.job` is a 'cron pattern'. The only field I will be adjusting is the first asterisk, as it determines the seconds. The second argument is the function to execute at each period.
-
 
 ### A Simple Token
 

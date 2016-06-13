@@ -1,6 +1,6 @@
 #!/bin/bash
 SOLC=`which solc`
-
+mkdir logs
 echo "Initializing genesis block..."
 geth init res/genesis.json
 

@@ -2,37 +2,18 @@ const repl = require('repl');
 var web3 = require('web3');
 var fs = require('fs');
 var test = require('./test.js')
+
 web3 = new web3(new web3.providers.HttpProvider('http://localhost:8545'));
 web3.eth.defaultAccount = web3.eth.coinbase;
 
-interactive=false;
-argument=false;
-argv = process.argv;
-L = argv.length;
-
-// skip the first two, since these are node and run.js
-contract = {'args': []};
-for (i = 2 ; i < L; i++) {
-	if (argv[i] == "interactive")
-		interactive = true;
-	else if (typeof contract.name !== 'undefined')
-		contract.args[contract.args.length] = argv[i];
-	else
-		contract.name = argv[i];
-}
-
-
-deployed = {};
-if (typeof contract.name !== 'undefined')
-	deployed[contract.name] = deploy(contract.name);
-
-
-if(interactive)
+if (process.argv.length > 2 
+	&& process.argv[2] == 'interactive')
 {
 	session = repl.start('> ');
 	session.context.web3 = web3;
 	session.context.build = build;
 	session.context.deploy = deploy;
+	session.context.tx_callback = tx_callback;
 	session.context.test = test;
 }
 
