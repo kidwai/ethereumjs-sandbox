@@ -5,7 +5,7 @@ var period = 100;
 var num_periods = 10;
 var mining_time = 6000;
 var error = 30000;
-describe("this one will work", function(){  
+describe("Ticker Test", function(){  
     var ticker = tools.deploy('ticker');
     before( function(done) {
         setTimeout(
