@@ -57,15 +57,57 @@ function txps (func, time) {
 	return i/time;
 }
 
+/* output data periodically */
+function data_stream (fout, period, duration) {
+	setTimeout(clearInterval, duration*1000, 
+				setInterval(function() { 
+					fs.appendFile(fout, get_state(), function(){});
+				}, period*1000));
+} 
 
+
+function get_state() {
+	blocknum = web3.eth.blockNumber;
+	block = web3.eth.getBlock(blocknum);
+
+	data = Date.now() + ',' +
+		   blocknum + ',' +
+		   web3.eth.getBlockTransactionCount(blocknum) + ',' +
+		   block.difficulty + ',' +
+		   block.size + ',' +
+		   block.gasLimit + ',' +
+		   block.gasUsed + ',' +
+		   web3.eth.gasPrice + ',' +
+		   web3.eth.hashrate + ',' +
+		   web3.net.peerCount + '\n'
+	return data;
+}
 
 
 module.exports.build = build;
 module.exports.deploy = deploy;
 module.exports.txps = txps;
+module.exports.data_stream = data_stream;
 
 
-if (process.argv[2] && process.argv[2] == "console") {
+if (process.argv[2])
+{
+	if (process.argv[2] == "console") {
     session = repl.start('> ');
     session.context.tools = this;
+	} 
+	else if (process.argv[2] == "monitor") {
+		fout = 'data.csv';
+		period = 10;
+		duration = 10*60;
+
+
+		if (process.argv[3])
+			fout = process.argv[3];
+		if (process.argv[4])
+			period = process.argv[4];
+		if (process.argv[5])
+			duration = process.argv[5];
+		data_stream(fout, period, duration);
+	}
 }
