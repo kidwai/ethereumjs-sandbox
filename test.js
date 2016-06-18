@@ -10,25 +10,20 @@ if (typeof web3 == "undefined"){
 
 
 
-contract_name = process.argv[2];
-func_name = process.argv[3];
-txps = process.argv[4];
-total_secs = process.argv[5];
-check = process.argv[6]
-period = 1/txps*1000;
-clear_time = total_secs*1000 + period/10;
+contract_name =  process.argv[2]; 
+func_name =  process.argv[3];
+total_secs = process.argv[4];
 
-
-/* execute the desired function at a rate of txps 
- * for total_secs seconds
-*/
 contract = tools.deploy(contract_name, function() {
-    tools.periodic_do(contract[func_name],
-                      period,
-                      clear_time
-                      });
+	console.log('Starting ' + total_secs + 's tx test.');
+	console.log('...');
+    txps = tools.txps(contract[func_name], total_secs);
+    console.log('Done. txps = ' + txps);
 });
 
-session = repl.start('> ');
-session.context.contract = contract;
-session.context.tools = tools;
+
+if (process.argv[5] && process.argv[5] == "console") {
+	session = repl.start('> ');
+	session.context.tools = tools;
+	session.context.contract = contract;
+}

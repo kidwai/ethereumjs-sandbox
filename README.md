@@ -55,9 +55,9 @@ brew install node
 * Clone this repository: `git clone https://github.com/kidwai/ethereum-tutorial.git`, or download the [zip](https://github.com/kidwai/ethereum-tutorial/archive/master.zip).
 * Open a shell to the new directory and run `npm install && npm start quick`. This will run a single `geth` node, create an account, start mining on a private blockchain, and provide log information in `logs/geth.log`.
 * (Optional) Geth logs provide valuable information about the inner workings of your node, your transactions, and the state of the network. You can keep an eye on the log file by opening a separate shell in the same directory and running `tail -f logs/geth.log`. I typically keep this in at least my peripheral vision at all times, for each node. 
-* Enter `node run interactive`. This will connect you to the node and leave you in an interactive javacsript REPL console. 
+* Enter `node tools console`. This will connect you to the node and leave you in an interactive javacsript REPL console. 
 * Write your smart contracts in any text editor, save them in the `sol` directory with a `.sol` extension.
-* To deploy a smart contract, just enter `deploy(name)`, where `name` is the name of the contract in the file named 'name.sol'.
+* To deploy a smart contract, just enter `tools.deploy(name)`, where `name` is the name of the contract in the file named 'name.sol'.
 
 ## Examples
 
@@ -73,11 +73,11 @@ contract ticker {
 }
 ```
 
-From within your interactive node session, run `ticker = deploy('ticker');`. After the contract is mined, you can do stuff with it. Like tick. 
+From within your interactive node session, run `ticker = tools.deploy('ticker');`. After the contract is mined, you can do stuff with it. Like tick. 
 
 
 ```javascript
- > ticker = deploy('ticker');
+ > ticker = tools.deploy('ticker');
  > Contract transaction sent: TransactionHash: 0xe8a8c9ba5b301a8aee124ab0d7f717466e283f15e6c1d3ab5e9fd70e374e0db8 waiting to be mined...
 Contract mined! Address: 0x73453ff26f284aa2ac302ae1cb0bd728fe5f2a06
 > parseInt(ticker.val())
@@ -88,17 +88,25 @@ Contract mined! Address: 0x73453ff26f284aa2ac302ae1cb0bd728fe5f2a06
 1 
 ```
 
-As a simple exercise, we can use this ticker to see how the  network handles transactions of this sort. I've wrapped the functions to set a timeout on a periodically executing function so they can be invoked in the interactive sessions through `test.periodic_do(n, m, func)`, where `n` is the period in milliseconds, `m` is the number of periods, and `func` is the function to execute at each period. So, to execute the tick function once every 5 seconds, for a total of 50 seconds, we would run
+As a simple exercise, we can use this ticker to see how the  network handles transactions of this sort. The function `tools.txps` will calculate the number of transactions per second attainable, given a transaction to execute and a time. From the REPL console,
 
 ```javascript
-> test.periodic_do(ticker.tick, 5000, 10)
-undefined
-> tick
-tick
-tick
-tick
-tick
+> tools.txps(ticker.tick, 10 )
+8.9
 ```
+
+To test the txps for the tick function directly from the command line, run
+
+```bash
+node test ticker tick 10
+Contract transaction sent: TransactionHash: 0xa6ac74ce9c92d4829f9d18998f4a272ba1449a6650332b37acd5a3713d310ae3 waiting to be mined...
+Contract mined! Address: 0x98fa026c70b369ad8b1c6285a189bf416b6943c8
+Starting 10s tx test.
+...
+Done. txps = 10
+```
+
+
 
 ### A Simple Token
 

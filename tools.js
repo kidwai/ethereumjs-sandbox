@@ -46,22 +46,26 @@ function deploy (name, _callback) {
 					gas: 3000000},
 					callback)
 }
-
-function periodic_do(func, period, clear_time, _callback) {
-    setTimeout(clearInterval, clear_time,
-        setInterval(func,
-                    period));
-    setTimeout(_callback, clear_time + 5000);
+function txps (func, time) {
+	ms = time*1000;
+	start = Date.now();
+	i = 0;
+	while (Date.now() - start < ms) {
+		func();
+		i++;
+	}
+	return i/time;
 }
 
 
-module.exports.periodic_do = periodic_do;
+
+
 module.exports.build = build;
 module.exports.deploy = deploy;
-
+module.exports.txps = txps;
 
 
 if (process.argv[2] && process.argv[2] == "console") {
     session = repl.start('> ');
-    session.context.periodic_do = periodic_do;
+    session.context.tools = this;
 }
