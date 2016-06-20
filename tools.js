@@ -73,11 +73,9 @@ function get_state() {
 	data = Date.now() + ',' +
 		   blocknum + ',' +
 		   web3.eth.getBlockTransactionCount(blocknum) + ',' +
-		   block.difficulty + ',' +
 		   block.size + ',' +
 		   block.gasLimit + ',' +
 		   block.gasUsed + ',' +
-		   web3.eth.gasPrice + ',' +
 		   web3.eth.hashrate + ',' +
 		   web3.net.peerCount + '\n'
 	return data;
