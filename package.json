@@ -22,6 +22,7 @@
 	"author": "Mohammad Kidwai",
 	"license": "MIT",
 	"dependencies": {
+	"simple-statistics": ">=2.0.0",
 	"web3": ">=0.15.3",
 	"mocha": ">=2.5.3",
 	"chai": ">=3.5.0"
