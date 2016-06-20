@@ -1,6 +1,7 @@
 const repl = require('repl');
 var Web3 = require('web3');
 var fs = require('fs');
+var monitor = require('./monitor.js');
 var stats = require('simple-statistics');
 
 if (typeof web3 == "undefined"){
@@ -24,9 +25,6 @@ function tx_callback(e, contract, _callback) {
     }
    }
 }
-
-
-
 function read_file(path) {return fs.readFileSync(path, 'utf8', fs_callback);}
 function solc(source) { return web3.eth.compile.solidity(source);}
 function make_contract(compiled) { return web3.eth.contract(compiled.info.abiDefinition); }
@@ -67,37 +65,10 @@ function txps (func, num_trials, trial_length) {
 	return data;
 }
 
-
-
-/* output data periodically */
-function data_stream (fout, period, duration) {
-	setTimeout(clearInterval, duration*1000, 
-				setInterval(function() { 
-					fs.appendFile(fout, get_state(), function(){});
-				}, period*1000));
-} 
-
-
-function get_state() {
-	blocknum = web3.eth.blockNumber;
-	block = web3.eth.getBlock(blocknum);
-
-	data = Date.now() + ',' +
-		   blocknum + ',' +
-		   web3.eth.getBlockTransactionCount(blocknum) + ',' +
-		   block.size + ',' +
-		   block.gasLimit + ',' +
-		   block.gasUsed + ',' +
-		   web3.eth.hashrate + ',' +
-		   web3.net.peerCount + '\n'
-	return data;
-}
-
-
 module.exports.build = build;
 module.exports.deploy = deploy;
 module.exports.txps = txps;
-module.exports.data_stream = data_stream;
+
 
 if (process.argv[2])
 {
@@ -105,19 +76,6 @@ if (process.argv[2])
     session = repl.start('> ');
     session.context.tools = this;
     session.context.stats = stats;
+    session.context.monitor = monitor;
 	} 
-	else if (process.argv[2] == "monitor") {
-		fout = 'data.csv';
-		period = 10;
-		duration = 10*60;
-
-
-		if (process.argv[3])
-			fout = process.argv[3];
-		if (process.argv[4])
-			period = process.argv[4];
-		if (process.argv[5])
-			duration = process.argv[5];
-		data_stream(fout, period, duration);
-	}
 }

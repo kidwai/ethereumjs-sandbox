@@ -4,8 +4,7 @@
 	"scripts": {
 		"start": "./sh/geth-setup.sh",
 		"info": "ps aux | grep geth | grep -v grep",
-		"reset": "rm -rf ~/.ethereum ~/.web3",
-		"monitor": "nohup node tools monitor data.csv 5 $1 > nohup.out 2>&1 &"
+		"reset": "rm -rf ~/.ethereum ~/.web3"
 	},
 	"description": "starter pack for go ethereum on ubuntu",
 	"repository": {
