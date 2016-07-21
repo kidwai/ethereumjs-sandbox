@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if [ -d contracts ]; then
+	PREFIX='contracts'
+else
+	PREFIX='.'
+fi
+
+
+N=$#
+
+
+if [ "$N" = 0  ]; then
+	`solc -o $PREFIX/solc --abi --bin $PREFIX/sol/*`
+	`solc --combined-json abi,bin $PREFIX/sol/* > $PREFIX/cache/interfaces.json`
+	`sed -i 's/contracts/interfaces/' $PREFIX/cache/interfaces.json`
+elif [ $1 = "clean" ]; then
+	rm $PREFIX/solc/* &> /dev/null
+else
+	for arg in $@
+	do
+		`solc -o $PREFIX/solc --abi --bin $PREFIX/sol/$arg.sol`
+	done
+fi

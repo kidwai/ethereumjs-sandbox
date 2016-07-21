@@ -1,6 +1,7 @@
 /*  Entry point to contract build and storage tools */
 var Web3 = require('web3');
 var fs = require('fs');
+var exec = require('child_process').execFileSync;
 
 if (typeof web3 == "undefined") {
 	web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
@@ -36,27 +37,12 @@ function contract_at(address, name) {
 
 
 /* Compiled and cache interfaces for all contracts in contracts/sol */
-function build() {
-	if (!interfaces)
-		interfaces = load('interfaces');
-	sol = fs.readdirSync('contracts/sol');
-	sol.forEach(function(file){
-		try {
-			source = fs.readFileSync('contracts/sol/' + file, 'utf8');
-			compiled = web3.eth.compile.solidity(source);
-			Object.keys(compiled).forEach((elem) => {
-				code = compiled[elem].code;
-				codeHash = web3.sha3(code);
-				abi = compiled[elem].info.abiDefinition;
-				interfaces[elem] = {
-					code : code,
-					codeHash : codeHash,
-					abi : abi,
-				};
-			});
-			store('interfaces', interfaces);
-		} catch (err) {console.log(err)}
-	});	
+function build(name) {
+	if (typeof name == "undefined")
+		exec('contracts/make')
+	else
+		exec('contracts/make', [name])
+	interfaces = load('interfaces');
 }
 
 /* Create new instance of contract of specified name,
@@ -71,12 +57,13 @@ function deploy(name, args, callback) {
 		else
 			tx_callback(err, contract, name);
 	}
-	if (!interfaces) {
+	if (typeof interfaces == "undefined") {
 		build();
-		interfaces = store('interfaces', interfaces);
+		interfaces = load('interfaces');
 	}
 	contract = web3.eth.contract(interfaces[name].abi);
-	code = interfaces[name].code;
+	console.log(contract);
+	code = interfaces[name].bin;
 
 	if (typeof args === "undefined") args = '';
 	else { args =  JSON.stringify(args); args = args.substring(1, args.length-1) + ',' }
@@ -84,7 +71,8 @@ function deploy(name, args, callback) {
 	opts = '{from:web3.eth.defaultAccount, data:code, gas:3000000}, _callback)';
 	call_str = 'contract.new(' + args + opts;
 	start = new Date().getTime();
- 	result =  eval('contract.new(' + args + opts);
+	console.log(call_str);
+ 	return  eval(call_str);
 }
 
 
@@ -137,6 +125,12 @@ function load(type) {
 		json = JSON.parse(raw, null, "\t");
 	} catch (err) {
 		return {}; 	// invalid cache file
+	}
+	if (type == "interfaces") {
+		json = json.interfaces;
+		Object.keys(json).forEach((type) => {
+			json[type].abi = JSON.parse(json[type].abi)
+		});
 	}
 	return json;
 }
