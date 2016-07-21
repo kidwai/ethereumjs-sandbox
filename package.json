@@ -1,12 +1,7 @@
 {
-	"name": "kidwai-ethereum-starter",
-	"version": "1.0.0",
-	"scripts": {
-		"start": "./sh/geth-setup.sh",
-		"info": "ps aux | grep geth | grep -v grep",
-		"reset": "rm -rf ~/.ethereum ~/.web3"
-	},
-	"description": "starter pack for go ethereum on ubuntu",
+	"name": "ethereum-tutorial",
+	"version": "1.1.0",
+	"description": "simple test framework for solidity with geth",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/kidwai/etheruem-tutorial.git"
@@ -21,10 +16,8 @@
 	"author": "Mohammad Kidwai",
 	"license": "MIT",
 	"dependencies": {
-	"simple-statistics": ">=2.0.0",
 	"web3": ">=0.15.3",
-	"mocha": ">=2.5.3",
-	"chai": ">=3.5.0"
+	"fkill": ">=3.3.0"
 	},
 	"bugs": {
 	"url": "https://github.com/kidwai/ethereum-tutorial/issues"

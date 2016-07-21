@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Kill running geth nodes, if any
+instances=`ps aux | grep "geth --rpc" | grep -v grep | wc -l`
+if [ $instances != 0 ]; then
+	node -e 'require("fkill")("geth")'
+fi

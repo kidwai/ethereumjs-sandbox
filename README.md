@@ -1,129 +1,124 @@
-# Ethereum
+# Ethereum Tutorial 
 
-The key innovation of the Ethereum blockchain is the ability to do more than just make financial transactions. Instead, through the use of the Etheruem virtual machine, peers can have their programs executed on the Ethereum network. 
+#### What is this?
+* **A Tutorial:** A step by step *guide** to the go-ethereum CLI for getting started with Solidity smart contracts on local geth nodes.
+* **A Test Framework:** Along the way, I wrapped functions I understood into scripts, leading to a very primtive (but simple) test framework for deploying and testing smart contracts.
 
-From what I've observed, very few people seem to understand blockchain technology. Nevertheless, many people advocate its utility, with little more than speculative and esoteric visions of a 'blockchain economy'. 
+    * Disclaimer: This is only a guide insofar as it helped me learn some things. It may or may not help you. 
 
-I don't mean to discourage any visionaries or theoreticians among us. Rather, I hope to, at a minumum, encourage and help facilitate experiment in blockchain applications in a setting that is not too complicated, while avoiding IDEs or Blockchain as a service platforms [I don't feel these should be necessary to write a simple Hello, World program].
+#### Why is this?
 
-The aim is to have a system to easily get started with your favourite text editor and the command line, run multiple nodes, monitor those nodes, test basic features of the network, rapidly execute smart contracts, and perform unit tests.
+* When I came across Ethereum not long ago, with no significant prior knowledge or experience with blockchains, I found the documentation and tools for starting out in a simple test environment and poking around to be convoluted, obfuscated, or non-intuitive. As I learned the basics of the command-line tools for running nodes and smart contracts, I noted my steps, then wrapped them into functions for automation. 
 
-Below you will find a very short description and some simple examples. For (much) more detail on how I arrived at these and where I am going, see the [wiki](https://github.com/kidwai/ethereum-tutorial/wiki), but keep in mind, this is all very much a work in progress.
+* After joining [Rubix](https://rubixbydeloitte.com) to work with prototyping so-called Dapps, poking around with the tools I had built to automate simple and common deployment tasks soon became useful in our work, so I was encouraged to continue working on them.
 
 
-# Prerequisites
+* There are [other frameworks](http://ethereum.stackexchange.com/questions/607/how-to-unit-test-smart-contracts)
+written by better developers than myself. The main reason I prefer to use these is because they were extremely easy to make, and can hence be reconstructed for explanatory purposes. I have therefore included a folder `notes` containing the steps I took to arrive at this, in case anyone finds it useful. Ideally, I will have time to expand on this substantially and cover the highlights of Ethereum as I understand them.
+
+## Prerequisites
 
 * You need a device running Ubuntu 16.04, or OS X.
+* We will use 'geth', the go-lang implementation of Ethereum to run our nodes, together with node.js to communicate with them, and solc, the Solidity compiler to compile our smart contracts.
+
+    ##### Ubuntu 
+    ```bash
+    sudo apt-get install software-properties-common
+    sudo add-apt-repository -y ppa:ethereum/ethereum
+    sudo apt-get update
+    sudo apt-get install -y ethereum solc nodejs
+    ```
+    ##### Mac
+    If you don't have `brew`, install it:
+
+    ```bash
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    ```
+    Then,
+
+    ```bash
+    brew tap ethereum/ethereum
+    brew install ethereum
+    brew install cpp-ethereum
+    brew linkapps cpp-ethereum
+    brew install node
+    ```
+
 * You should read the Ethereum [white paper](https://github.com/ethereum/wiki/wiki/White-Paper).
 * You should be comfortable with some form of programming.
 
-# Installation
 
-We will use 'geth', the go-lang implementation of Ethereum to run our nodes, together with node.js to communicate with them. 
 
-### Ubuntu ###
-To install `geth` from PPA, run:
+## Usage
 
-```bash
-sudo apt-get install software-properties-common
-sudo add-apt-repository -y ppa:ethereum/ethereum
-sudo apt-get update
-sudo apt-get install -y ethereum solc nodejs
+Install depenencies with `npm install`, then start a geth node with 5 unlocked accounts:
+
+```
+$ geth/start
+Initializing genesis block...
+I0720 02:40:53.489953 ethdb/database.go:82] Alloted 16MB cache and 16 file handles to /home/momo/.ethereum/chaindata
+I0720 02:40:53.523530 cmd/geth/main.go:304] successfully wrote genesis block and/or chain rule set: 8b1f2271ac3d51f7ca371b8e633e8f1625b64fb4bad3a158cc3da8157dfdaa14
+
+Creating 5 accounts...
+Address: {f7856892d372649066ca36b69db9f0166fe4ee70}
+Address: {c984314cbda3982a26d088dbcbd8150a6d0bab7e}
+Address: {e4af6aaae10f46416fd21a13299d256bbbb64346}
+Address: {79c95d366d149b354b950a8f360f0e6b50e538f7}
+Address: {f9e877bac83a1a8e3e68249e468f0a05f3513ca3}
+
+Starting geth node...
+See geth.log for details.
 ```
 
-### Mac ###
-If you don't have `brew`, install it:
-		
-```bash
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-```
-To install `geth` and `solc`, the Solidity compiler, run:
+After a few seconds, geth will have set up the RPC interface, and you can connect with `node console`. It will take some time to generate
+the DAG file. To check the progress, use `tail -f geth/geth.log`. <br>
 
-```bash
-brew tap ethereum/ethereum
-brew install ethereum
-brew install cpp-ethereum
-brew linkapps cpp-ethereum
-brew install node
-```
+Once that's done, you can deploy your contracts and execute their functions. Note: your contracts 
+and their state will persist after you exit the console. They will be refreshed using `contracts/cache`.
 
-### Usage
-
-###### I'm not going to explain much here - this is intended for cloning and coding right away. If you have a look into any of the code, you'll see it's basically just a few wrappers around `geth` functions.
-
-* See installation.
-* Clone this repository: `git clone https://github.com/kidwai/ethereum-tutorial.git`, or download the [zip](https://github.com/kidwai/ethereum-tutorial/archive/master.zip).
-* Open a shell to the new directory and run `npm install && npm start quick`. This will run a single `geth` node, create an account, start mining on a private blockchain, and provide log information in `logs/geth.log`.
-* (Optional) Geth logs provide valuable information about the inner workings of your node, your transactions, and the state of the network. You can keep an eye on the log file by opening a separate shell in the same directory and running `tail -f logs/geth.log`. I typically keep this in at least my peripheral vision at all times, for each node. 
-* Enter `node tools console`. This will connect you to the node and leave you in an interactive javacsript REPL console. 
-* Write your smart contracts in any text editor, save them in the `sol` directory with a `.sol` extension.
-* To deploy a smart contract, just enter `tools.deploy(name)`, where `name` is the name of the contract in the file named 'name.sol'.
-
-## Examples
-
-### A Simple Ticker
-
-In the provided `sol` directory is the following simple contract:
+In the provided `contracts/sol`directory is the following simple contract:
 
 ```javascript
 contract ticker {
-	uint public val;
+    uint public val;
 
-	function tick () { val += 1; }
+    function tick () { val += 1; }
 }
 ```
 
-From within your interactive node session, run `ticker = tools.deploy('ticker');`. After the contract is mined, you can do stuff with it. Like tick. 
-
-
-```javascript
- > ticker = tools.deploy('ticker');
- > Contract transaction sent: TransactionHash: 0xe8a8c9ba5b301a8aee124ab0d7f717466e283f15e6c1d3ab5e9fd70e374e0db8 waiting to be mined...
-Contract mined! Address: 0x73453ff26f284aa2ac302ae1cb0bd728fe5f2a06
-> parseInt(ticker.val())
-0
-> ticker.tick()
-'0x696eb740232f84e4c09b5cfd0f1aba482e87681f1cdff042f1587a46c546d119' // wait a few seconds
-> parseInt(ticker.val())
-1 
-```
-
-As a simple exercise, we can use this ticker to see how the  network handles transactions of this sort. The function `tools.txps` will calculate the number of transactions per second attainable, given a transaction to execute and a time. From the REPL console,
+You can deploy it then invoke its functions easily.
 
 ```javascript
-> tools.txps(ticker.tick, 10 )
-8.9
+> build()
+> deploy('ticker')
+> Contract transaction sent. Waiting to be mined...
+Transaction Hash: 0x3f2c8e3e292330592e815c5c49fee5ae3487f09d42ec644b50269992fabbc7f1
+Contract mined in 657ms.
+Address: 0x7ee1abfd1491f93e7a39809007cde0e3e4db03cd
+
+> contracts.ticker.val()
+{ [String: '0'] s: 1, e: 0, c: [ 0 ] }
+> contracts.ticker.tick()
+'0xc9aae7b721a55c26c2cd5de09df5f93ee950b43624b1abdfc2daf0321f8e90bc'
+> contracts.ticker.val()
+{ [String: '1'] s: 1, e: 0, c: [ 1 ] }
 ```
 
-To test the txps for the tick function directly from the command line, run
-
-```bash
-node test ticker tick 10
-Contract transaction sent: TransactionHash: 0xa6ac74ce9c92d4829f9d18998f4a272ba1449a6650332b37acd5a3713d310ae3 waiting to be mined...
-Contract mined! Address: 0x98fa026c70b369ad8b1c6285a189bf416b6943c8
-Starting 10s tx test.
-...
-Done. txps = 10
-```
+You can exit your REPL session with `.exit`, and stop your node with `geth/stop`, and your contracts will still be in tact.
 
 
+## Reference
 
-### A Simple Token
+* **console** - Entry point to REPL session, with exports from tools available directly, and the usual web3 API.
+* **tools** - Exposes functions for building and deploying contracts located in the `contracts/sol` directory, caching interfaces and instance information to `contracts/cache`.
+    * **build** - Compiles all contracts in the `contracts/sol` directory, populating the `interfaces` object defined below. Contents are stored in `contracts/cache/interfaces.json`, overwriting any existing content. This should should be extended to specify only specific file names or contract names, and then to inserting into the cache without necessarily overwriting.
+    * **interfaces** - Contains the abi, code, and code hash of each compiled contract. Synchronized with `contracts/cache/interfaces.json`.
+    * **deploy** - Creates a new instance of a contract with the provided arguments, and populates the `contracts` object defined below. If the name supplied to deploy does not exist as an entry in the interfaces object, `build` will be run first. Each deployed contract is added to the registry, defined below. 
+    * **contracts** -  Instances of deployed contracts. Loaded on startup from info contained in contract registry.
+  * **registry** - Object containing contract addresses as keys to subobjects of name and codeHash of the corresponding deployed contract. Loaded on startup to populate the contracts object.
 
-```javascript
-contract  token {
-    mapping (address => uint256) public balanceOf;
+###### Geth
 
-    function token (uint initial_supply) {
-        balanceOf[msg.sender] = initial_supply;
-    }
-
-    function transfer(address _receiver, uint256 _value) {
-        if (balanceOf[msg.sender] < _value) throw;
-        if (balanceOf[_receiver] + _value < balanceOf[_receiver]) throw;
-        balanceOf[msg.sender] -= _value;
-        balanceOf[_receiver] += _value;
-    }
-}
-```
-
+* **start** - Purges existing geth node, then runs a geth node with default configuration for testing. This automatically creates 5 new accounts, then starts a geth node with them unlocked. 
+* **stop** Kill currently active geth node.
+* **purge** - Kill currently active geth node and wipe the datadir. The datadir used for now is the default `~/.ethereum`. To remove the log file, or the ethash, run with args `log`, `ethash`, or both. 

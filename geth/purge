@@ -1,0 +1,50 @@
+# #!/bin/bash
+
+# Determine appropriate path prefix
+PREFIX='./geth'
+if [ -d 'geth'  ]; then
+	PREFIX='./geth'
+	CACHE="./contracts/cache"
+else
+	PREFIX='.'
+	CACHE="../contracts/cache"
+fi
+
+
+# # Stop running geth nodes, if any
+`""$PREFIX"/stop"`
+
+
+# # Remove ~/.ethereum, if exists
+if [ -d "$HOME/.ethereum" ]; then
+	rm -rf "$HOME/.ethereum"
+	rm "$PREFIX/pass"	2> /dev/null
+fi
+
+# # Remove the contracts registry, if exists
+if [ -f "$CACHE/registry.json" ]; then
+	rm "$CACHE/registry.json"
+fi
+
+
+# # Remove logs or ethash, if specified
+# # via command-line args
+# #
+# # Usage:  purge ethash 
+# #		  purge log
+# #		  purge ethash log
+# #
+if [ $# -gt 0 ]; then
+	if [ $1 = 'ethash' ]; then
+		rm -rf "$HOME/.ethash" 2> /dev/null
+	elif [ $1 = 'log' ]; then
+		rm "$PREFIX/geth.log" 2> /dev/null
+	fi
+	if [ $# -gt 1 ]; then
+		if [ $2 = 'ethash' ]; then
+			rm -rf "$HOME/.ethash" 2> /dev/null
+		elif [ $2 = 'log' ]; then
+			rm -rf "$PREFIX/geth.log" 2>  /dev/null
+		fi
+	fi
+fi
