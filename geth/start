@@ -11,6 +11,7 @@ else
 fi
 
 if [ ! -d "$HOME/.ethereum" ]; then
+	rm "$PREFIX/pass" &> /dev/null
 	echo "Initializing genesis block..."
 	geth init ""$PREFIX"/genesis.json"
 
