@@ -2,15 +2,15 @@
 
 #### What is this?
 * **A Tutorial:** A step by step *guide** to the go-ethereum CLI for getting started with Solidity smart contracts on local geth nodes.
-* **A Test Framework:** Along the way, I wrapped functions I understood into scripts, leading to a very primtive (but simple) test framework for deploying and testing smart contracts.
+* **A Test Framework:** Along the way, mundane tasks are wrapped into scripts, leading to a very primtive test framework for smart contracts.
 
-    * Disclaimer: This is only a guide insofar as it helped me learn some things. It may or may not help you. 
+    \* This is only a guide insofar as it helped me learn some things. It may or may not help you. 
 
 #### Why is this?
 
 * When I came across Ethereum not long ago, with no significant prior knowledge or experience with blockchains, I found the documentation and tools for starting out in a simple test environment and poking around to be convoluted, obfuscated, or non-intuitive. As I learned the basics of the command-line tools for running nodes and smart contracts, I noted my steps, then wrapped them into functions for automation. 
 
-* After joining [Rubix](https://rubixbydeloitte.com) to work with prototyping so-called Dapps, poking around with the tools I had built to automate simple and common deployment tasks soon became useful in our work, so I was encouraged to continue working on them.
+* After joining [Rubix](https://rubixbydeloitte.com) to work with prototyping Dapps, these tools became useful in our work, so I was encouraged to continue working on them.
 
 
 * There are [other frameworks](http://ethereum.stackexchange.com/questions/607/how-to-unit-test-smart-contracts)
