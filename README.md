@@ -8,13 +8,13 @@
 
 #### Why is this?
 
-* When I came across Ethereum not long ago, with no significant prior knowledge or experience with blockchains, I found the documentation and tools for starting out in a simple test environment and poking around to be convoluted, obfuscated, or non-intuitive. As I learned the basics of the command-line tools for running nodes and smart contracts, I noted my steps, then wrapped them into functions for automation. 
+* When I came across Ethereum not long ago, with no significant prior knowledge or experience with blockchains, I found the documentation and tools for starting out in a simple test environment and poking around to be convoluted, obfuscated, or non-intuitive.  
 
 * After joining [Rubix](https://rubixbydeloitte.com) to work with prototyping Dapps, these tools became useful in our work, so I was encouraged to continue working on them.
 
 
 * There are [other frameworks](http://ethereum.stackexchange.com/questions/607/how-to-unit-test-smart-contracts)
-written by better developers than myself. The main reason I prefer to use these is because they were extremely easy to make, and can hence be reconstructed for explanatory purposes. I have therefore included a folder `notes` containing the steps I took to arrive at this, in case anyone finds it useful. Ideally, I will have time to expand on this substantially and cover the highlights of Ethereum as I understand them.
+written by better developers than myself. The main reason I prefer to use this is because it was extremely easy to make, and can hence be reconstructed for explanatory purposes.
 
 ## Prerequisites
 
