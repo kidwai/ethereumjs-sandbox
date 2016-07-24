@@ -13,8 +13,12 @@ contract UnavailableAccountRecoverer is Ownable {
     super();
   }
 
-  function setTimeReference(address _newTimeReference) onlyOwner() {
+  function changeTimeReference(address _newTimeReference) onlyOwner() {
     timeReference = _newTimeReference;
+  }
+
+  function changeRecoveryDestination(address _newRecoveryDestination) onlyOwner() {
+    recoveryDestination = _newRecoveryDestination;
   }
 
   function recover() {
