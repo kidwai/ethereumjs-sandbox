@@ -1,6 +1,7 @@
-contract Pingable {
+import "Ownable.sol";
 
-	address owner;
+contract Pingable is Ownable{
+
 	uint last_ping;
 	event Ping(address indexed _from, uint _now);
 
@@ -8,10 +9,6 @@ contract Pingable {
 }
 
 contract Pinger is Pingable {
-
-	function Pinger() {
-		owner = msg.sender;
-	}
 
 	function ping () {
 		last_ping = now;
