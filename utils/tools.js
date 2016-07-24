@@ -62,7 +62,6 @@ function deploy(name, args, callback) {
 		interfaces = load('interfaces');
 	}
 	contract = web3.eth.contract(interfaces[name].abi);
-	console.log(contract);
 	code = interfaces[name].bin;
 
 	if (typeof args === "undefined") args = '';
@@ -71,7 +70,6 @@ function deploy(name, args, callback) {
 	opts = '{from:web3.eth.defaultAccount, data:code, gas:3000000}, _callback)';
 	call_str = 'contract.new(' + args + opts;
 	start = new Date().getTime();
-	console.log(call_str);
  	return  eval(call_str);
 }
 
@@ -135,5 +133,29 @@ function load(type) {
 	return json;
 }
 
+
+function watch (contract) {
+	return 	contract.allEvents( (err, result) => {
+		if (!err) {
+			console.log(result);
+		}
+	})
+}
+
+function balance(addr) {
+	return web3.eth.getBalance(addr);
+}
+
+function balances(addr_list) {
+	for (i = 0 ; i < addr_list.length; i++) {
+		console.log(balance(addr_list[i]));
+	}
+}
+
+
 exports.build = build;
 exports.deploy = deploy;
+exports.contracts = contracts;
+exports.watch = watch;
+exports.balances = balances;
+exports.balance = balance;

@@ -1,7 +1,7 @@
-contract ticker {
+contract Ticker {
 	uint public val;
 
-	function tick () { val += 1;}
+	function Tick () { val += 1;}
 
 	function reset() { val = 0;}
 }
