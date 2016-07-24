@@ -18,8 +18,16 @@ contract UnavailableAccountRecoverer is Ownable {
     owner = msg.sender; 
   }
 
-  function setTimeReference(address _newTimeReference) onlyOwner() {
+  function changeTimeReference(address _newTimeReference) onlyOwner() {
     timeReference = _newTimeReference;
+  }
+
+  function changeTimeout(uint _newTimeout) onlyOwner() {
+    timeout = _newTimeout;
+  }
+
+  function changeRecoveryDestination(address _newRecoveryDestination) onlyOwner() {
+    recoveryDestination = _newRecoveryDestination;
   }
 
   function recover() {
