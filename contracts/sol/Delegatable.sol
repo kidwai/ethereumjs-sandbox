@@ -1,5 +1,6 @@
-contract Delegatable {
-	address owner;
+import "Ownable.sol";
+
+contract Delegatable is Ownable {
 	mapping (address => bool) delegates;
 
 	function addDelegate (address _addr)
@@ -16,16 +17,9 @@ contract Delegatable {
 	onlyDelegate (msg.sender);
 
 
-	modifier onlyOwner {
-		if (msg.sender == owner) {
-			_
-		} else {
-			throw;
-		}
-	} 
 	modifier onlyDelegate (address _addr) {
 		if (msg.sender == owner || delegates[_addr]) _
-		else throw;	
+		else throw;
 	}
 }
 
@@ -38,7 +32,7 @@ contract Death is Delegatable {
 	}
 
 
-	function changeOwner() 
+	function changeOwner()
 	onlyDelegate (msg.sender) {
 		owner = msg.sender;
 	}
