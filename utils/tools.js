@@ -65,7 +65,8 @@ function deploy(name, args, callback) {
 	code = interfaces[name].bin;
 
 	if (typeof args === "undefined") args = '';
-	else { args =  JSON.stringify(args); args = args.substring(1, args.length-1) + ',' }
+	else { try{args =  JSON.stringify(args); args = args.substring(1, args.length-1) + ',' }
+			catch(err) {args = '';}}
 
 	opts = '{from:web3.eth.defaultAccount, data:code, gas:3000000}, _callback)';
 	call_str = 'contract.new(' + args + opts;

@@ -1,6 +1,6 @@
 contract Ownable {
 
-	address owner;
+	address public owner;
 	event ownerChanged();
 
   function Ownable() {

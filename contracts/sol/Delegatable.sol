@@ -1,15 +1,13 @@
 import "Ownable.sol";
 
 contract Delegatable is Ownable {
-	mapping (address => bool) delegates;
+	mapping (address => bool) public delegates;
 
-	function addDelegate (address _addr)
-	onlyOwner {
+	function addDelegate (address _addr) {
 		delegates[_addr] = true;
 	}
 
-	function removeDelegate (address _addr)
-	onlyDelegate (_addr) {
+	function removeDelegate (address _addr) {
 		delegates[_addr] = false;
 	}
 
@@ -23,17 +21,3 @@ contract Delegatable is Ownable {
 	}
 }
 
-
-contract Death is Delegatable {
-
-	function Death (address _delegate) {
-		owner = msg.sender;
-		addDelegate(_delegate);
-	}
-
-
-	function changeOwner()
-	onlyDelegate (msg.sender) {
-		owner = msg.sender;
-	}
-}
