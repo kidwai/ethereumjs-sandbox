@@ -17,6 +17,10 @@ contract UnavailableAccountRecoverer is Ownable {
     timeReference = _newTimeReference;
   }
 
+  function changeTimeout(uint _newTimeout) onlyOwner() {
+    timeout = _newTimeout;
+  }
+
   function changeRecoveryDestination(address _newRecoveryDestination) onlyOwner() {
     recoveryDestination = _newRecoveryDestination;
   }
@@ -25,7 +29,7 @@ contract UnavailableAccountRecoverer is Ownable {
     //first, check if time has actually expired (or if the timeReference wasn't properly configured)
     Pingable source = Pingable(timeReference);
 
-    if(source.last_ping == 0 || now < source.last_ping + timeout) {
+    if(source.last_ping() == 0 || now < source.last_ping() + timeout) {
       throw;
     }
     //next, call changeOwner for the protected account
