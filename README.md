@@ -1,52 +1,11 @@
-# Ethereum Tutorial 
+# ethereumjs-tools
 
-#### What is this?
-* **A Tutorial:** A step by step *guide** to the go-ethereum CLI for getting started with Solidity smart contracts on local geth nodes.
-* **A Test Framework:** Along the way, mundane tasks are wrapped into scripts, leading to a very primtive test framework for smart contracts.
-
-    \* This is only a guide insofar as it helped me learn some things. It may or may not help you. 
-
-#### Why is this?
-
-* When I came across Ethereum not long ago, with no significant prior knowledge or experience with blockchains, I found the documentation and tools for starting out in a simple test environment and poking around to be convoluted, obfuscated, or non-intuitive.  
-
-* After joining [Rubix](https://rubixbydeloitte.com) to work with prototyping Dapps, these tools became useful in our work, so I was encouraged to continue working on them.
+##### Why?  
+* While learning the basics of Ethereum and Solidity, I frequently wrapped tasks in scripts. After joining [Rubix](https://rubixbydeloitte.com) to work with prototyping Dapps, these became useful in our work, so I was encouraged to continue working on them.
 
 
 * There are [other frameworks](http://ethereum.stackexchange.com/questions/607/how-to-unit-test-smart-contracts)
-written by better developers than myself. The main reason I prefer to use this is because it was extremely easy to make, and can hence be reconstructed for explanatory purposes.
-
-## Prerequisites
-
-* You need a device running Ubuntu 16.04, or OS X.
-* We will use 'geth', the go-lang implementation of Ethereum to run our nodes, together with node.js to communicate with them, and solc, the Solidity compiler to compile our smart contracts.
-
-    ##### Ubuntu 
-    ```bash
-    sudo apt-get install software-properties-common
-    sudo add-apt-repository -y ppa:ethereum/ethereum
-    sudo apt-get update
-    sudo apt-get install -y ethereum solc nodejs
-    ```
-    ##### Mac
-    If you don't have `brew`, install it:
-
-    ```bash
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    ```
-    Then,
-
-    ```bash
-    brew tap ethereum/ethereum
-    brew install ethereum
-    brew install cpp-ethereum
-    brew linkapps cpp-ethereum
-    brew install node
-    ```
-
-* You should read the Ethereum [white paper](https://github.com/ethereum/wiki/wiki/White-Paper).
-* You should be comfortable with some form of programming.
-
+written by better developers than myself. The main reason I prefer to use this is because it was extremely easy to make, and can hence be reconstructed for explanatory purposes. I have also found it more instructive to stick with just the command-line and a text editor for now.
 
 
 ## Usage
@@ -117,7 +76,7 @@ You can exit your REPL session with `.exit`, and stop your node with `geth/stop`
     * **contracts** -  Instances of deployed contracts. Loaded on startup from info contained in contract registry.
   * **registry** - Object containing contract addresses as keys to subobjects of name and codeHash of the corresponding deployed contract. Loaded on startup to populate the contracts object.
 
-###### Geth
+### Geth
 
 * **start** - Purges existing geth node, then runs a geth node with default configuration for testing. This automatically creates 5 new accounts, then starts a geth node with them unlocked. 
 * **stop** Kill currently active geth node.
