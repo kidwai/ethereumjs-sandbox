@@ -39,9 +39,9 @@ function contract_at(address, name) {
 /* Compiled and cache interfaces for all contracts in contracts/sol */
 function build(name) {
 	if (typeof name == "undefined")
-		exec('contracts/make')
+		exec('make', ['-C', 'contracts/sol'])
 	else
-		exec('contracts/make', [name])
+		exec('make', ['-C', 'contracts/sol', name])
 	interfaces = load('interfaces');
 }
 
