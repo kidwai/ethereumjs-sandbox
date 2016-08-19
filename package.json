@@ -1,30 +1,30 @@
 {
-	"name": "ethereum-tutorial",
-	"version": "1.1.0",
-	"description": "simple test framework for solidity with geth",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/kidwai/etheruem-tutorial.git"
-	},
-	"keywords": [
-		"ethereum",
-		"nodejs",
-		"simple",
-		"blockchain",
-		"cli"
-	],
-	"scripts": {
-		"start": "node -p  'require(\"ethereumjs-testrpc\").server().listen(8545)'"
-	},
-	"author": "Mohammad Kidwai",
-	"license": "MIT",
-	"dependencies": {
-	"web3": ">=0.15.3",
-	"fkill": ">=3.3.0",
-	"ethereumjs-testrpc": ""
-	},
-	"bugs": {
-	"url": "https://github.com/kidwai/ethereum-tutorial/issues"
-	},
-	"homepage": "https://github.com/kidwai/ethereum-tutorial#readme"
+  "name": "ethereumjs-sandbox",
+  "version": "1.1.0",
+  "description": "simple test environment for ethereum and solidity",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kidwai/etheruemjs-sandbox.git"
+  },
+  "keywords": [
+    "ethereum",
+    "nodejs",
+    "simple",
+    "blockchain"
+  ],
+  "scripts": {
+    "start": "node -p  'require(\"ethereumjs-testrpc\").server().listen(8545)'"
+  },
+  "author": "Mohammad Kidwai",
+  "license": "MIT",
+  "dependencies": {
+    "ethereumjs-testrpc": "",
+    "express": "^4.14.0",
+    "fkill": ">=3.3.0",
+    "web3": ">=0.15.3"
+  },
+  "bugs": {
+    "url": "https://github.com/kidwai/ethereumjs-sandbox/issues"
+  },
+  "homepage": "https://github.com/kidwai/ethereumjs-sandbox#readme"
 }
