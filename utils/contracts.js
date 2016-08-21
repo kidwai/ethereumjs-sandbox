@@ -11,9 +11,9 @@ function refresh () {
 
 function contracts () {
 	refresh();
-	contract_list = [];
+	contract_list = {};
 	Object.keys(instances).forEach((address) => {
-		contract_list.push(at(address, instances[address]));
+		contract_list[address] = at(address, instances[address]);
 	});
 	return contract_list;
 }

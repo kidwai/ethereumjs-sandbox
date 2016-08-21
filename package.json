@@ -14,7 +14,7 @@
   ],
   "scripts": {
 	"build": "node -e '\"require(\"./utils/build.js\")()\"'",
-    	"start": "node -p  'require(\"ethereumjs-testrpc\").server().listen(8545)'"
+  "start": "node -p  'require(\"ethereumjs-testrpc\").server().listen(8545)'"
   },
   "author": "Mohammad Kidwai",
   "license": "MIT",
@@ -22,7 +22,8 @@
     "ethereumjs-testrpc": "",
     "express": "^4.14.0",
     "fkill": ">=3.3.0",
-    "web3": ">=0.15.3"
+    "web3": ">=0.15.3",
+    "glob-fs": ""
   },
   "bugs": {
     "url": "https://github.com/kidwai/ethereumjs-sandbox/issues"

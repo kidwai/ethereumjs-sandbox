@@ -1,4 +1,4 @@
-## ethereumjs sandbox
+## Ethereumjs Sandbox
 
 * While learning the basics of Ethereum and Solidity, I frequently wrapped tasks in scripts. After joining [Rubix](https://rubixbydeloitte.com) to work with prototyping Dapps, these became useful in our work, so I was encouraged to continue working on them.
 
@@ -21,11 +21,13 @@ Install node dependencies.
 npm install
 ```
 
-If you want to use an implementation of Ethereum instead of testrpc,
+If you want to use geth instead of testrpc,
 
 
 ```
-geth/install
+sudo add-apt-repository ppa:ethereum/ethereum -y
+sudo apt-get-update
+sudo apt-get install ethereum
 ```
 
 will install go-ethereum. 
@@ -39,24 +41,29 @@ sudo apt-get install solc
 If you run into issues with solc, see [this](https://github.com/ethereum/solidity/issues/865) thread.
 
 
-To compile with the nodejs solidity compiler, run `make js`. This will be slower, but will produce
-the same result.
-
 
 
 ## Usage
 
+Install npm dependencies.
+
+```
+npm install
+```
+
 Start testrpc with
 
 ```
-npm start testrpc
+npm start
 ```
 
-or start geth with
+Compile the contracts in the `contracts` directory with solc,
 
 ```
-geth/start
+make
 ```
+
+
 
 To connect to the provider in an REPL session, run
 
@@ -64,16 +71,15 @@ To connect to the provider in an REPL session, run
 node attach
 ```
 
-
 Deploy some contracts.
 
 ```javascript
 > ticker = deploy('Ticker')
-> Tx Hash: 0xa5a0fdaeb18ee84ca28ece65db7c8cb0acaecbc587dcc2a9d14dd19330750bd9
-Contract mined in 620ms.
-Address: 0x60c3769f17e421db4b2ff53308b0c99d09be8ae0
+Tx Hash: 0xe6a45f231dee6c33acc15c69542e1801ac1375bb57f057637fa3c7a22be6ba15
+Contract mined in 643ms.
+Address: 0x8d5a91745473b985b442ca202219707dee946b1f
 
-> token deploy('Token', [1000])
+> token = deploy('Token', [1000])
 > Tx Hash: 0x15721509c4a3d15f90005b89dcdd281cbecc9696ee6c52f5a38cf1a4009a9190
 Contract mined in 574ms.
 Address: 0x48b4ad1ba4633878cd585de053d5e0cbb9821397
@@ -86,14 +92,47 @@ Invoke their functions.
 '0xaa333b819f26a16422131ef7a0ef781fba074c16edc312d9c696adf0e9959472'
 > ticker.val()
 { [String: '1'] s: 1, e: 0, c: [ 1 ] }
+
+> token.transfer(accounts(1), 100) // note accounts(1) is shorthand for web3.eth.accounts[0]
+'0x93704986151e83a97d52003f2250b708cf743c81ec91027bf756f1aacd888735'
+> token.balanceOf(accounts(1))
+{ [String: '100'] s: 1, e: 2, c: [ 100 ] }
 ```
+
+Deploy a contract and operate on it immediately.
+
 
 ```javascript
+> deploy('Token', [10000], (token) => { token.transfer(accounts(1), 100)})
+> Tx Hash: 0x6eb1edd25551337e2a91cf3ae5cfdca71ab79f9c10247981add6ab16c0426e7b
+Contract mined in 554ms.
+Address: 0x707624850e6e84e61164b4953b7a30cf71e15057
+
+> token.balanceOf(accounts(1))
+{ [String: '100'] s: 1, e: 2, c: [ 100 ] }
+```
+
+
+Deploy contract-dependent contracts in a sequence.
+
+```javascript
+> deploy('Token', [100000], (token) => { deploy('Wallet', [token.address]) })
+> Tx Hash: 0xcde85e8c7abbc8b5c996760c82ec1330eea25a0ae7fa39a9b304d5ab4ccace0f
+Contract mined in 608ms.
+Address: 0x79ce8d9e61ca35c0be5eebef5916e25c87f10a2f
+Tx Hash: 0xc89caf2acab1694f79b8493c41175d85a5f0dcab6d1363f9175c27111cba1241
+Contract mined in 555ms.
+Address: 0x6dd14736b5308bcf9669c24d3d21c2a0a01ba424
 
 ```
 
+Retrieve the wallet that was just deployed by address.
 
 
 ```javascript
-> deploy
+> wallet = contracts()['0x6dd14736b5308bcf9669c24d3d21c2a0a01ba424']
 ```
+
+
+Copying and pasting addresses is a pain. Maybe I will add some
+sort of aliasing.
