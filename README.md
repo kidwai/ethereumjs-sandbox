@@ -1,4 +1,4 @@
-## Ethereumjs Sandbox
+## EthereumJS Sandbox
 
 * While learning the basics of Ethereum and Solidity, I frequently wrapped tasks in scripts. After joining [Rubix](https://rubixbydeloitte.com) to work with prototyping Dapps, these became useful in our work, so I was encouraged to continue working on them.
 
@@ -73,7 +73,7 @@ node attach
 
 Deploy some contracts.
 
-```javascript
+```java
 > ticker = deploy('Ticker')
 Tx Hash: 0xe6a45f231dee6c33acc15c69542e1801ac1375bb57f057637fa3c7a22be6ba15
 Contract mined in 643ms.
@@ -87,7 +87,7 @@ Address: 0x48b4ad1ba4633878cd585de053d5e0cbb9821397
 
 Invoke their functions.
 
-```javascript
+```java
 > ticker.tick()
 '0xaa333b819f26a16422131ef7a0ef781fba074c16edc312d9c696adf0e9959472'
 > ticker.val()
@@ -102,10 +102,10 @@ Invoke their functions.
 Deploy a contract and operate on it immediately.
 
 
-```javascript
+```java
 > deploy('Token', [10000], (token) => { token.transfer(accounts(1), 100)})
 > Tx Hash: 0x6eb1edd25551337e2a91cf3ae5cfdca71ab79f9c10247981add6ab16c0426e7b
-Contract mined in 554ms.
+Contract mined in 554ms
 Address: 0x707624850e6e84e61164b4953b7a30cf71e15057
 
 > token.balanceOf(accounts(1))
@@ -113,9 +113,9 @@ Address: 0x707624850e6e84e61164b4953b7a30cf71e15057
 ```
 
 
-Deploy contract-dependent contracts in a sequence. Note, `accounts(i)` is a shorthand for `web3.eth.accounts[i]`.
+Deploy contract-dependent contracts in a sequence.
 
-```javascript
+```java
 > deploy('Token', [100000], (token) => { deploy('Wallet', [token.address]) })
 > Tx Hash: 0xcde85e8c7abbc8b5c996760c82ec1330eea25a0ae7fa39a9b304d5ab4ccace0f
 Contract mined in 608ms.
@@ -129,7 +129,7 @@ Address: 0x6dd14736b5308bcf9669c24d3d21c2a0a01ba424
 Retrieve the wallet that was just deployed by address.
 
 
-```javascript
+```java
 > wallet = contracts()['0x6dd14736b5308bcf9669c24d3d21c2a0a01ba424']
 ```
 
