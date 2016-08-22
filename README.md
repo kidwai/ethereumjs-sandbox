@@ -113,7 +113,7 @@ Address: 0x707624850e6e84e61164b4953b7a30cf71e15057
 ```
 
 
-Deploy contract-dependent contracts in a sequence.
+Deploy contract-dependent contracts in a sequence. Note, `accounts(i)` is a shorthand for `web3.eth.accounts[i]`.
 
 ```javascript
 > deploy('Token', [100000], (token) => { deploy('Wallet', [token.address]) })
