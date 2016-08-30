@@ -136,3 +136,60 @@ Retrieve the wallet that was just deployed by address.
 
 Copying and pasting addresses is a pain. Maybe I will add some
 sort of aliasing.
+
+
+
+#### Events
+
+
+Drop an event in your contract:
+
+```
+contract Ticker {
+	uint public val;
+	event Tick(address indexed from, uint indexed val);
+
+	function tick() { 
+		val += 1;
+		Tick(msg.sender, val);
+	}
+}
+```
+
+Build then deploy the contract:
+
+
+```
+$ make && node attach
+> ticker = deploy('Ticker')
+> Tx Hash: 0x1b6d7bce11e7462b3c4d132208dadffd1d4c6beef554e85a3d56c9a55cbebfae
+> Contract mined in 592ms.
+Address: 0x3ca492ae292ed6b2f3bf3dc5ffb49cd1d13985a0
+```
+
+Watch the contract for the specified event args:
+
+
+```
+> watch(ticker, 'Tick');
+> ticker.tick()
+'0x0c6f6e4e870a4edc2d52b604c2f43df66f4ba15ee677961cf6aec2edcd8fbcfe'
+> { sender: '0x9f7cc03d55dcecffb3430f5d595efd888975351b',
+  tick_val: { [String: '1'] s: 1, e: 0, c: [ 1 ] } }
+```
+
+
+Watch the contract for the specified fields of the specified event args:
+
+
+```
+> watch(ticker, 'Tick', ['sender', ['val']);
+> ticker.tick()
+'0xb012f0bcb7370b13c2dc53ff5e91a574b82a833cff25aaf7a8ab2344da9aca83'
+> sender:0x9f7cc03d55dcecffb3430f5d595efd888975351b
+tick_val:1
+```
+
+Note, the fields specified must be `indexed` in the contract.
+
+* Todo: have watch return a promise for an event that can then be stopped

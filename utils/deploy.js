@@ -1,15 +1,7 @@
 var Web3 = require('web3');
-var interfaces = require('../contracts/interfaces.json');
-var instances;
 var path = require('path');
 
-try {
-	instances = require('../contracts/instances.json');
-}catch (err) {
-	instances = {};
-}
 const BROWSER = (typeof window !== "undefined");
-
 if (!BROWSER) {
 	var fs = require('fs');
 }
@@ -19,8 +11,8 @@ if (typeof web3 == "undefined") {
     web3.eth.defaultAccount = web3.eth.accounts[0];
 }
 
-
 function deploy (name, args, callback) {
+    var interfaces = require('../contracts/interfaces.json');
 	var abi = JSON.parse(interfaces[name].abi);
 	var contract = web3.eth.contract(abi);
 

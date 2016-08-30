@@ -1,16 +1,22 @@
 var Web3 = require('web3');
 
-
 if (typeof web3 == "undefined")
 	web3 = new Web3(new Web3.provider.HttpProvider("http://localhost:8545"));
 
-function refresh () {
-	interfaces = require('../contracts/interfaces.json');
-	instances = require('../contracts/instances.json');
+function load () {
+	instances = {};
+	interfaces = {};
+	fs.exists('../contracts/instances.json', () => {
+		instances = require('../contracts/instances.json');
+	});
+
+	fs.exists('../contracts/interfaces.json', () => {
+		interfaces = require('../contracts/interfaces.json').interfaces;
+	})
 }
 
 function contracts () {
-	refresh();
+	load();
 	contract_list = {};
 	Object.keys(instances).forEach((address) => {
 		contract_list[address] = at(address, instances[address]);
