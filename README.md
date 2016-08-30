@@ -175,7 +175,7 @@ Watch the contract for the specified event args:
 > ticker.tick()
 '0x0c6f6e4e870a4edc2d52b604c2f43df66f4ba15ee677961cf6aec2edcd8fbcfe'
 > { sender: '0x9f7cc03d55dcecffb3430f5d595efd888975351b',
-  tick_val: { [String: '1'] s: 1, e: 0, c: [ 1 ] } }
+  val: { [String: '1'] s: 1, e: 0, c: [ 1 ] } }
 ```
 
 
@@ -183,11 +183,10 @@ Watch the contract for the specified fields of the specified event args:
 
 
 ```
-> watch(ticker, 'Tick', ['sender', ['val']);
+> watch(ticker, 'Tick', ['val']);
 > ticker.tick()
 '0xb012f0bcb7370b13c2dc53ff5e91a574b82a833cff25aaf7a8ab2344da9aca83'
-> sender:0x9f7cc03d55dcecffb3430f5d595efd888975351b
-tick_val:1
+> val:1
 ```
 
 Note, the fields specified must be `indexed` in the contract.
