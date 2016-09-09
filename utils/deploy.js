@@ -1,18 +1,14 @@
 var Web3 = require('web3');
 var path = require('path');
+var interfaces = require('../contracts/interfaces.json');
 
-const BROWSER = (typeof window !== "undefined");
-if (!BROWSER) {
-	var fs = require('fs');
-}
 
 if (typeof web3 == "undefined") {
 	web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-    web3.eth.defaultAccount = web3.eth.accounts[0];
+    	web3.eth.defaultAccount = web3.eth.accounts[0];
 }
 
 function deploy (name, args, callback) {
-    var interfaces = require('../contracts/interfaces.json');
 	var abi = JSON.parse(interfaces[name].abi);
 	var contract = web3.eth.contract(abi);
 
