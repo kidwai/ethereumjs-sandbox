@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "ethereumjs-testrpc": "",
-    "web3": "",
+    "web3": ""
   },
   "bugs": {
     "url": "https://github.com/kidwai/ethereumjs-sandbox/issues"
