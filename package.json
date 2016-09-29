@@ -13,8 +13,6 @@
     "blockchain"
   ],
   "scripts": {
-	"build": "node -e '\"require(\"./utils/build.js\")()\"'",
-  "start": "node -p  'require(\"ethereumjs-testrpc\").server().listen(8545)'"
   },
   "author": "Mohammad Kidwai",
   "license": "MIT",
