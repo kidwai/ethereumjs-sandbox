@@ -1,7 +1,2 @@
 public
-app.js
-index.js
 node_modules
-contracts/interfaces.json
-contracts.instances.json
-utils/tools.js
