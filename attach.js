@@ -1,4 +1,5 @@
-var Contract = require('./utils/contract.js');
+var tools = require('./tools');
+var contracts = require('./contracts');
 const repl = require('repl');
 
 
@@ -8,6 +9,5 @@ session = repl.start({
 	ignoreUndefined: true
 });
 
-
-
-session.context.Contract = Contract;
+session.context.contracts = contracts;
+session.context.tools = tools;
