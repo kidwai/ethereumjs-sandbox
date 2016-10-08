@@ -1,12 +1,15 @@
-var info = require('./contracts.json')["<contract_name>"];
-	info.interface = JSON.parse(info.interface);
-var Web3 = require('web3');
-const HOST = "127.0.01";
+const HOST = "127.0.01"; 	
 const PORT = 8545;
+
+var info = require('./contracts.json')["<contract_name>"];
+var Web3 = require('web3');
+info.interface = JSON.parse(info.interface);
+
+
+
 
 
 module.exports.new = function () {
-	connect(HOST,PORT);
 	var args = Array.from(arguments);
 	contract = deploy({
 		data: info.bytecode,
@@ -14,18 +17,11 @@ module.exports.new = function () {
 	});
 	return contract;
 }
-
-
-
-
-function connect() {
-	var args = Array.from(arguments);
-	if (typeof(web3)  === "undefined") {
-		web3 = new Web3(
-			new Web3.providers.HttpProvider(
-				"http://" + HOST + ":" + PORT));
-		web3.eth.defaultAccount = web3.eth.accounts[0];
-	}
+if (typeof(web3)  === "undefined") {
+	web3 = new Web3(
+		new Web3.providers.HttpProvider(
+			"http://" + HOST + ":" + PORT));
+	web3.eth.defaultAccount = web3.eth.accounts[0];
 }
 
 function deploy (args)  {

@@ -1,5 +1,4 @@
-var tools = require('./tools');
-var contracts = require('./contracts');
+var ethnode = require('./ethnode');
 const repl = require('repl');
 
 
@@ -9,5 +8,4 @@ session = repl.start({
 	ignoreUndefined: true
 });
 
-session.context.contracts = contracts;
-session.context.tools = tools;
+session.context.ethnode = ethnode;

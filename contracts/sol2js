@@ -1,0 +1,5 @@
+#!/bin/bash
+
+for f in `ls solidity/*.sol | cut -d '/' -f '3' | cut -d '.' -f 1`; do
+	sed "s/<contract_name>/$f/" lib/template.js > lib/$f.js;
+done;
