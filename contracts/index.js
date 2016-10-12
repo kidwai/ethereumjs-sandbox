@@ -23,8 +23,10 @@ module.exports.load =  () => {
 
 module.exports.build = (provider) => {
 	compiled = compile();
+	fs.writeFileSync('./contracts/app.js', '');
 	Object.keys(compiled).forEach((key)=>{
 		prototype(key, compiled[key], provider);
+		fs.appendFileSync('./contracts/app.js', key + '= require(\'./javascript/' + key +  '\');\n')
 	});
 }
 
@@ -39,8 +41,6 @@ function prototype(name, info, provider) {
 	if (typeof (provider) === "undefined")
 		provider = "localhost:8545";
 	
-	src = src.replace("<PROVIDER>", provider);
-	src = src.replace("<PROVIDER>", provider);
 	fs.writeFileSync(JSPATH + '/' + name + '.js', src);
 }
 
@@ -60,7 +60,6 @@ function compile (){
 		result[key].functionHashes = contract.functionHashes;
 		result[key].gasEstimates = contract.gasEstimates;
 	});
-	fs.writeFileSync('contracts/compiled.json', JSON.stringify(result));
 	return result;
 }
 

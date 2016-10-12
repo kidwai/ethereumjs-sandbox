@@ -1,47 +1,46 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-Ownable = require('./javascript/Ownable.js');
-Owned = require('./javascript/Owned.js');
-Ticker = require('./javascript/Ticker.js');
-Token = require('./javascript/Token.js');
-Wallet = require('./javascript/Wallet.js');
+Ownable= require('./javascript/Ownable');
+Owned= require('./javascript/Owned');
+Ticker= require('./javascript/Ticker');
+Token= require('./javascript/Token');
+Wallet= require('./javascript/Wallet');
 
-},{"./javascript/Ownable.js":2,"./javascript/Owned.js":3,"./javascript/Ticker.js":4,"./javascript/Token.js":5,"./javascript/Wallet.js":6}],2:[function(require,module,exports){
+},{"./javascript/Ownable":2,"./javascript/Owned":3,"./javascript/Ticker":4,"./javascript/Token":5,"./javascript/Wallet":6}],2:[function(require,module,exports){
 module.exports = Ownable;
 
 var Web3 = require('web3');
-
-
-
 var interface = []
 ;
 
 
-if (typeof (window) !== "undefined") {
-	var web3 = typeof window.web3 !== 'undefined' ? window.web3 : new Web3();
-	if (typeof web3.currentProvider !== 'undefined')
-		web3.setProvider(window.web3.currentProvider)
-	else web3.setProvider(
-			new Web3.providers.HttpProvider(
-				"http:\/\/localhost:8545"));	
-} else {
-	if (typeof (web3) === "undefined") {
-		web3 = new Web3(new Web3.providers.HttpProvider(
-			"http:\/\/localhost:8545"));
+function Ownable (provider) {
+	if (typeof(provider) === "undefined")
+			provider = "http://localhost:8545";
+
+	this.provider = provider;
+	var	web3 = new Web3(
+			new Web3.providers.HttpProvider(provider));
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-	}
-}
-function Ownable () {
+
 	var contract = web3.eth.contract(interface);
 	contract.new({
-		from: web3.eth.accounts[0],
+		from: web3.eth.defaultAccount,
 		data: '6060604052600c8060106000396000f360606040526008565b600256',
 		gas: 3000000},
 		(err,contract) => {
 			if (contract.address) {
+				console.log("Contract mined: " + contract.address);
 				Object.keys(contract).forEach((key)=>{
-					this[key] = contract[key];
-				})
-
+					this[key] = () => {
+						var web3 = new Web3(new Web3.providers.HttpProvider(this.provider));
+						web3.eth.defaultAccount = web3.eth.accounts[0];
+						if (typeof(contract[key]) === "function")
+							return contract[key](arguments);
+						return contract[key];
+				}
+				});
+			} else {
+				console.log("Tx Hash: " + contract.transactionHash);
 			}
 		}
 	)
@@ -51,39 +50,38 @@ function Ownable () {
 module.exports = Owned;
 
 var Web3 = require('web3');
-
-
-
 var interface = [{"inputs":[],"type":"constructor"}]
 ;
 
 
-if (typeof (window) !== "undefined") {
-	var web3 = typeof window.web3 !== 'undefined' ? window.web3 : new Web3();
-	if (typeof web3.currentProvider !== 'undefined')
-		web3.setProvider(window.web3.currentProvider)
-	else web3.setProvider(
-			new Web3.providers.HttpProvider(
-				"http:\/\/localhost:8545"));	
-} else {
-	if (typeof (web3) === "undefined") {
-		web3 = new Web3(new Web3.providers.HttpProvider(
-			"http:\/\/localhost:8545"));
+function Owned (provider) {
+	if (typeof(provider) === "undefined")
+			provider = "http://localhost:8545";
+
+	this.provider = provider;
+	var	web3 = new Web3(
+			new Web3.providers.HttpProvider(provider));
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-	}
-}
-function Owned () {
+
 	var contract = web3.eth.contract(interface);
 	contract.new({
-		from: web3.eth.accounts[0],
+		from: web3.eth.defaultAccount,
 		data: '60606040525b33600060006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908302179055505b600c80603d6000396000f360606040526008565b600256',
 		gas: 3000000},
 		(err,contract) => {
 			if (contract.address) {
+				console.log("Contract mined: " + contract.address);
 				Object.keys(contract).forEach((key)=>{
-					this[key] = contract[key];
-				})
-
+					this[key] = () => {
+						var web3 = new Web3(new Web3.providers.HttpProvider(this.provider));
+						web3.eth.defaultAccount = web3.eth.accounts[0];
+						if (typeof(contract[key]) === "function")
+							return contract[key](arguments);
+						return contract[key];
+				}
+				});
+			} else {
+				console.log("Tx Hash: " + contract.transactionHash);
 			}
 		}
 	)
@@ -93,39 +91,38 @@ function Owned () {
 module.exports = Ticker;
 
 var Web3 = require('web3');
-
-
-
 var interface = [{"constant":true,"inputs":[],"name":"val","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"tick","outputs":[],"payable":false,"type":"function"},{"inputs":[],"type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"sender","type":"address"},{"indexed":true,"name":"tick_val","type":"uint256"}],"name":"Tick","type":"event"}]
 ;
 
 
-if (typeof (window) !== "undefined") {
-	var web3 = typeof window.web3 !== 'undefined' ? window.web3 : new Web3();
-	if (typeof web3.currentProvider !== 'undefined')
-		web3.setProvider(window.web3.currentProvider)
-	else web3.setProvider(
-			new Web3.providers.HttpProvider(
-				"http:\/\/localhost:8545"));	
-} else {
-	if (typeof (web3) === "undefined") {
-		web3 = new Web3(new Web3.providers.HttpProvider(
-			"http:\/\/localhost:8545"));
+function Ticker (provider) {
+	if (typeof(provider) === "undefined")
+			provider = "http://localhost:8545";
+
+	this.provider = provider;
+	var	web3 = new Web3(
+			new Web3.providers.HttpProvider(provider));
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-	}
-}
-function Ticker () {
+
 	var contract = web3.eth.contract(interface);
 	contract.new({
-		from: web3.eth.accounts[0],
+		from: web3.eth.defaultAccount,
 		data: '60606040525b60006000600050819055505b60e48061001e6000396000f360606040526000357c0100000000000000000000000000000000000000000000000000000000900480633c6bb4361460435780633eaf5d9f14606857603f565b6002565b34600257605260048050506079565b6040518082815260200191505060405180910390f35b34600257607760048050506082565b005b60006000505481565b600160006000828282505401925050819055506000600050543373ffffffffffffffffffffffffffffffffffffffff167f4003cdd494419a986508924f0bfa114ebae78cffffde1ba3515b9dc78bbe700760405180905060405180910390a35b56',
 		gas: 3000000},
 		(err,contract) => {
 			if (contract.address) {
+				console.log("Contract mined: " + contract.address);
 				Object.keys(contract).forEach((key)=>{
-					this[key] = contract[key];
-				})
-
+					this[key] = () => {
+						var web3 = new Web3(new Web3.providers.HttpProvider(this.provider));
+						web3.eth.defaultAccount = web3.eth.accounts[0];
+						if (typeof(contract[key]) === "function")
+							return contract[key](arguments);
+						return contract[key];
+				}
+				});
+			} else {
+				console.log("Tx Hash: " + contract.transactionHash);
 			}
 		}
 	)
@@ -135,39 +132,38 @@ function Ticker () {
 module.exports = Token;
 
 var Web3 = require('web3');
-
-
-
 var interface = [{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[],"payable":false,"type":"function"},{"inputs":[{"name":"_initial_supply","type":"uint256"}],"type":"constructor"}]
 ;
 
 
-if (typeof (window) !== "undefined") {
-	var web3 = typeof window.web3 !== 'undefined' ? window.web3 : new Web3();
-	if (typeof web3.currentProvider !== 'undefined')
-		web3.setProvider(window.web3.currentProvider)
-	else web3.setProvider(
-			new Web3.providers.HttpProvider(
-				"http:\/\/localhost:8545"));	
-} else {
-	if (typeof (web3) === "undefined") {
-		web3 = new Web3(new Web3.providers.HttpProvider(
-			"http:\/\/localhost:8545"));
+function Token (provider) {
+	if (typeof(provider) === "undefined")
+			provider = "http://localhost:8545";
+
+	this.provider = provider;
+	var	web3 = new Web3(
+			new Web3.providers.HttpProvider(provider));
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-	}
-}
-function Token () {
+
 	var contract = web3.eth.contract(interface);
 	contract.new({
-		from: web3.eth.accounts[0],
+		from: web3.eth.defaultAccount,
 		data: '6060604052604051602080610201833981016040528080519060200190919050505b8060006000508190555080600160005060003373ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600050819055505b506101928061006f6000396000f360606040526000357c01000000000000000000000000000000000000000000000000000000009004806370a0823114610047578063a9059cbb1461007857610042565b610002565b3461000257610062600480803590602001909190505061009e565b6040518082815260200191505060405180910390f35b346100025761009c60048080359060200190919080359060200190919050506100dc565b005b6000600160005060008373ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000505490506100d7565b919050565b80600160005060003373ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000505410151561018d5780600160005060003373ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008282825054039250508190555080600160005060008473ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000828282505401925050819055505b5b505056',
 		gas: 3000000},
 		(err,contract) => {
 			if (contract.address) {
+				console.log("Contract mined: " + contract.address);
 				Object.keys(contract).forEach((key)=>{
-					this[key] = contract[key];
-				})
-
+					this[key] = () => {
+						var web3 = new Web3(new Web3.providers.HttpProvider(this.provider));
+						web3.eth.defaultAccount = web3.eth.accounts[0];
+						if (typeof(contract[key]) === "function")
+							return contract[key](arguments);
+						return contract[key];
+				}
+				});
+			} else {
+				console.log("Tx Hash: " + contract.transactionHash);
 			}
 		}
 	)
@@ -177,39 +173,38 @@ function Token () {
 module.exports = Wallet;
 
 var Web3 = require('web3');
-
-
-
 var interface = [{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"balance","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"_token_addr","type":"address"}],"type":"constructor"}]
 ;
 
 
-if (typeof (window) !== "undefined") {
-	var web3 = typeof window.web3 !== 'undefined' ? window.web3 : new Web3();
-	if (typeof web3.currentProvider !== 'undefined')
-		web3.setProvider(window.web3.currentProvider)
-	else web3.setProvider(
-			new Web3.providers.HttpProvider(
-				"http:\/\/localhost:8545"));	
-} else {
-	if (typeof (web3) === "undefined") {
-		web3 = new Web3(new Web3.providers.HttpProvider(
-			"http:\/\/localhost:8545"));
+function Wallet (provider) {
+	if (typeof(provider) === "undefined")
+			provider = "http://localhost:8545";
+
+	this.provider = provider;
+	var	web3 = new Web3(
+			new Web3.providers.HttpProvider(provider));
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-	}
-}
-function Wallet () {
+
 	var contract = web3.eth.contract(interface);
 	contract.new({
-		from: web3.eth.accounts[0],
+		from: web3.eth.defaultAccount,
 		data: '606060405260405160208061031b833981016040528080519060200190919050505b5b33600060006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908302179055505b80600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908302179055505b50610292806100896000396000f360606040526000357c010000000000000000000000000000000000000000000000000000000090048063a9059cbb14610047578063b69ef8a81461006d57610042565b610002565b346100025761006b6004808035906020019091908035906020019091905050610095565b005b346100025761007f60048050506101aa565b6040518082815260200191505060405180910390f35b600060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614156101a057600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663a9059cbb8383604051837c0100000000000000000000000000000000000000000000000000000000028152600401808373ffffffffffffffffffffffffffffffffffffffff16815260200182815260200192505050600060405180830381600087803b156100025760325a03f115610002575050505b6101a5565b610002565b5b5050565b6000600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166370a08231600060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16600060405160200152604051827c0100000000000000000000000000000000000000000000000000000000028152600401808273ffffffffffffffffffffffffffffffffffffffff168152602001915050602060405180830381600087803b156100025760325a03f1156100025750505060405180519060200150905061028f565b9056',
 		gas: 3000000},
 		(err,contract) => {
 			if (contract.address) {
+				console.log("Contract mined: " + contract.address);
 				Object.keys(contract).forEach((key)=>{
-					this[key] = contract[key];
-				})
-
+					this[key] = () => {
+						var web3 = new Web3(new Web3.providers.HttpProvider(this.provider));
+						web3.eth.defaultAccount = web3.eth.accounts[0];
+						if (typeof(contract[key]) === "function")
+							return contract[key](arguments);
+						return contract[key];
+				}
+				});
+			} else {
+				console.log("Tx Hash: " + contract.transactionHash);
 			}
 		}
 	)

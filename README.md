@@ -16,7 +16,7 @@ Install node dependencies.
 npm install
 ```
 
-To install geth instead, run
+If you want to use geth instead of testrpc,
 
 
 ```
@@ -24,18 +24,14 @@ sudo add-apt-repository ppa:ethereum/ethereum -y
 sudo apt-get-update
 sudo apt-get install ethereum
 ```
-For parity, use the one line installer 
 
-```
-bash <(curl https://get.parity.io -Lk)
-```
-
+will install go-ethereum. 
 
 ## Quick Start
 
 Write your contracts in `contracts/solidity`.
 
-```javascript
+```
 contract Ticker {
 	uint public val;
 	function tick (){
@@ -44,7 +40,7 @@ contract Ticker {
 }
 ```
 
-Build Javascript prototypes for use on the command-line or in the browser.
+Build Javascript prototypes.
 
 ```
 $ npm run build
@@ -59,9 +55,9 @@ $ npm run testrpc
 
 Start the console
 
-```javascript
+```
 $ node console
-localhost:8545 > web3.eth.accounts
+> web3.eth.accounts
 [ '0xd07bfe65fa97bd9dc43a64a5f3fc9e3bb4917f96',
   '0x24168c80ceb039bacc8c706434db83084aa6c41a',
   '0x02d8931be91624d4a960d6af4f0297d47476cd6a',
@@ -77,34 +73,53 @@ localhost:8545 > web3.eth.accounts
 
 Deploy your contracts.
 
-
-```javascript
-localhost:8545 > Ticker = new Ticker()
 ```
-
-Invoke their functions.
-
-```javascript
+> Ticker = new Ticker()
+Tx Hash: 0xb433d1b4df5649b2632e1bedf487f36696cf821e40fb990c9b92054badcd11b9
+Contract mined: 0x26402dcf58927cf5e53949e27cfbe297697c328c
 localhost:8545 > Ticker.tick()
-'0x6b20a2cd8da357fd5cb851bea7f5896130bf7f2b753af877bddfbd11433a889d'
+'0xaa504f1438d6ae60296d1e580a97334bc7e9e8d58b4af696ee68e9e0db06320e'
 localhost:8545 > Ticker.val()
 { [String: '1'] s: 1, e: 0, c: [ 1 ] }
 ```
 
-Stop testrpc
+
+If, additionally, we run geth with 
 
 ```
-$ npm stop
+$ geth --rpc --rpcport 8546 --unlock 0
+```
+
+We can deploy contracts here with
+
+
+```
+> Ticker = new Ticker("http://localhost:8546")
+```
+
+Here is an example session using both testrpc and geth.
+
+```
+> test_ticker = new Ticker()
+Ticker { provider: 'http://localhost:8545' }
+> Tx Hash: 0xf862b5884eb992147a1ede71f2dd6d78ca65b936adf186d57f079e1d04085984
+Contract mined: 0x6cee6639d4bafc627516db5e12dace4ae88f8f01
+
+> geth_ticker = new Ticker("http://localhost:8546")
+Ticker { provider: 'http://localhost:8546' }
+> Tx Hash: 0xb1cdd16f29d578fa98479d1dfddfb793e6526f8a7f7d23d746c99675205fe13d
+
+> Contract mined: 0xf6d2735320996db4ce6b140ae0bbdf500d971dab
+
+> test_ticker.tick()
+'0x0efa04ca97428189cb35e57fc9f85e6c75b5940cdb32e6426936fbf5d52ac844'
+> test_ticker.val()
+{ [String: '1'] s: 1, e: 0, c: [ 1 ] }
+> geth_ticker.tick()
+'0x991f56f536486656135f0d4dca24ab7a5cef83ad8daa3d7fd4de08fa654eb20b'
+> geth_ticker.val()
+{ [String: '1'] s: 1, e: 0, c: [ 1 ] }
 ```
 
 
-To connect to a different RPC provider at the console, run `node console <host>:<port>`.
-
-### Contracts
-
-This folder contains Solidity source files, together with Javascript prototypes for simple usage.
-
-
-### Web
-
-This folder contains a simple html page using semantic UI that includes the javascript prototypes from the contracts folder. A suitable UI can then  be constructed to suit a demonstration of their interaction. 
+To use these in the browser, run `npm run browserify`. See the html in the `web` folder for a simple page using semantic UI. More documentation to come.

@@ -1,5 +1,5 @@
-Ownable = require('./javascript/Ownable.js');
-Owned = require('./javascript/Owned.js');
-Ticker = require('./javascript/Ticker.js');
-Token = require('./javascript/Token.js');
-Wallet = require('./javascript/Wallet.js');
+Ownable= require('./javascript/Ownable');
+Owned= require('./javascript/Owned');
+Ticker= require('./javascript/Ticker');
+Token= require('./javascript/Token');
+Wallet= require('./javascript/Wallet');

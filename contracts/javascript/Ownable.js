@@ -1,39 +1,38 @@
 module.exports = Ownable;
 
 var Web3 = require('web3');
-
-
-
 var interface = []
 ;
 
 
-if (typeof (window) !== "undefined") {
-	var web3 = typeof window.web3 !== 'undefined' ? window.web3 : new Web3();
-	if (typeof web3.currentProvider !== 'undefined')
-		web3.setProvider(window.web3.currentProvider)
-	else web3.setProvider(
-			new Web3.providers.HttpProvider(
-				"http:\/\/localhost:8545"));	
-} else {
-	if (typeof (web3) === "undefined") {
-		web3 = new Web3(new Web3.providers.HttpProvider(
-			"http:\/\/localhost:8545"));
+function Ownable (provider) {
+	if (typeof(provider) === "undefined")
+			provider = "http://localhost:8545";
+
+	this.provider = provider;
+	var	web3 = new Web3(
+			new Web3.providers.HttpProvider(provider));
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-	}
-}
-function Ownable () {
+
 	var contract = web3.eth.contract(interface);
 	contract.new({
-		from: web3.eth.accounts[0],
+		from: web3.eth.defaultAccount,
 		data: '6060604052600c8060106000396000f360606040526008565b600256',
 		gas: 3000000},
 		(err,contract) => {
 			if (contract.address) {
+				console.log("Contract mined: " + contract.address);
 				Object.keys(contract).forEach((key)=>{
-					this[key] = contract[key];
-				})
-
+					this[key] = () => {
+						var web3 = new Web3(new Web3.providers.HttpProvider(this.provider));
+						web3.eth.defaultAccount = web3.eth.accounts[0];
+						if (typeof(contract[key]) === "function")
+							return contract[key](arguments);
+						return contract[key];
+				}
+				});
+			} else {
+				console.log("Tx Hash: " + contract.transactionHash);
 			}
 		}
 	)

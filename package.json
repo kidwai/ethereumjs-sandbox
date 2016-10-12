@@ -13,7 +13,8 @@
     "blockchain"
   ],
   "scripts": {
-	"build": "node -e \"require('./contracts').build()\" && browserify contracts/app.js -o web/js/app.bundle.js",
+	"build": "node -e \"require('./contracts').build()\"",
+	"browserify": "browersify contracts/app.js -o web/js/app.bundle.js",
 	"testrpc": "node -e \"require('ethereumjs-testrpc').server().listen(8545)\" &",
   "stop": "kill `ps aux | grep ethereumjs-testrpc | grep -v grep | cut -d ' ' -f 6` &>/dev/null"
   },

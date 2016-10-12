@@ -14,13 +14,13 @@ if (typeof(arg) === "undefined") {
 
 
 session = repl.start({
-	prompt: HOST + ':' + PORT + ' > ',
+	prompt: '> ',
 	ignoreUndefined: true
 });
 
 session.context.web3 = new Web3(
 	new Web3.providers.HttpProvider(
-		"http://" + HOST + ":" + PORT));
+		"http:\/\/" + HOST + ":" + PORT));
 
 
 
@@ -28,4 +28,3 @@ var modules = contracts.load();
 Object.keys(modules).forEach((module)=>{
 	session.context[module] = modules[module];
 });
-
