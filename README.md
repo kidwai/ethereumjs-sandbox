@@ -31,7 +31,7 @@ will install go-ethereum.
 
 Write your contracts in `contracts/solidity`.
 
-```
+```javascript
 contract Ticker {
 	uint public val;
 	function tick (){
@@ -55,7 +55,7 @@ $ npm run testrpc
 
 Start the console
 
-```
+```javascript
 $ node console
 > web3.eth.accounts
 [ '0xd07bfe65fa97bd9dc43a64a5f3fc9e3bb4917f96',
@@ -73,7 +73,7 @@ $ node console
 
 Deploy your contracts.
 
-```
+```javascript
 > Ticker = new Ticker()
 Tx Hash: 0xb433d1b4df5649b2632e1bedf487f36696cf821e40fb990c9b92054badcd11b9
 Contract mined: 0x26402dcf58927cf5e53949e27cfbe297697c328c
@@ -93,13 +93,13 @@ $ geth --rpc --rpcport 8546 --unlock 0
 We can deploy contracts here with
 
 
-```
+```javascript
 > Ticker = new Ticker("http://localhost:8546")
 ```
 
 Here is an example session using both testrpc and geth.
 
-```
+```javascript
 > test_ticker = new Ticker()
 Ticker { provider: 'http://localhost:8545' }
 > Tx Hash: 0xf862b5884eb992147a1ede71f2dd6d78ca65b936adf186d57f079e1d04085984
