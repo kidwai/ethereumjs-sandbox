@@ -1,9 +1,12 @@
 var Web3 = require('web3');
+var interfaces = require('./compiled.json');
+
 
 if (typeof web3 == "undefined") {
 	web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
     	web3.eth.defaultAccount = web3.eth.accounts[0];
 }
+
 
 function deploy (name, args, callback) {
 	var abi = JSON.parse(interfaces[name].abi);
@@ -46,7 +49,6 @@ function tx_callback(err, contract, name) {
                 stop = new Date().getTime();
                 console.log("Contract mined in " + (stop-start) + "ms.");
                 console.log("Address: " + contract.address);
-		if (!BROWSER)  store(contract, name);
                 resolve(contract);
             }
         }
@@ -54,9 +56,5 @@ function tx_callback(err, contract, name) {
 }
 
 
-function store(contract, name){
-	instances[contract.address] = name;
-	fs.writeFile(path.resolve('./contracts/instances.json'), JSON.stringify(instances));
-}
 
 module.exports = deploy;

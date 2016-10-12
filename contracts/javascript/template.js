@@ -1,11 +1,10 @@
-module.exports = Owned;
+module.exports = <NAME>;
 
 var Web3 = require('web3');
 
 
 
-var interface = [{"inputs":[],"type":"constructor"}]
-;
+var interface = <INTERFACE>;
 
 
 if (typeof (window) !== "undefined") {
@@ -14,19 +13,19 @@ if (typeof (window) !== "undefined") {
 		web3.setProvider(window.web3.currentProvider)
 	else web3.setProvider(
 			new Web3.providers.HttpProvider(
-				"http:\/\/localhost:8545"));	
+				"http:\/\/<PROVIDER>"));	
 } else {
 	if (typeof (web3) === "undefined") {
 		web3 = new Web3(new Web3.providers.HttpProvider(
-			"http:\/\/localhost:8545"));
+			"http:\/\/<PROVIDER>"));
 		web3.eth.defaultAccount = web3.eth.accounts[0];
 	}
 }
-function Owned () {
+function <NAME> () {
 	var contract = web3.eth.contract(interface);
 	contract.new({
 		from: web3.eth.accounts[0],
-		data: '60606040525b33600060006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908302179055505b600c80603d6000396000f360606040526008565b600256',
+		data: '<BYTECODE>',
 		gas: 3000000},
 		(err,contract) => {
 			if (contract.address) {

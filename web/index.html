@@ -2,6 +2,7 @@
 	<head>
 		<script type="text/javascript" src="js/jquery-2.2.2.min.js"></script>
 		<script type="text/javascript" src="js/semantic.min.js"></script>
+		<script type="text/javascript" src="js/app.bundle.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/semantic.min.css"> 
 	</head>
 	<body>
@@ -14,9 +15,9 @@
 			<br/>
 			<h3 class="ui aligned center ">Deploy a Contract</h3>
 			<div class="ui container form" style="width: 20%">
-				<select class="ui fluid search selection dropdown" onchange="get_args()">
+				<select id="contract_selection" class="ui fluid search selection dropdown" onchange="deployable()">
                     <option value="">Contract</option>
-                    <option value="ticker">Ticker</option>
+                    <option value="Ticker">Ticker</option>
 				</select>
 				<br/>
 				<div id="args_table" class="sol">
@@ -35,7 +36,7 @@
                         </tbody>
 					</table>
 				</div>
-				<button id="deploy" class="ui button blue" disabled="true">Deploy</button>
+				<button id="deploy" class="ui button blue" disabled="true" onclick="deploy()">Deploy</button>
 			</div>
 			<div class="ui grid container">
 			  <div class="four wide column"></div>
@@ -50,10 +51,18 @@
 			$('.ui.dropdown').dropdown();
 			$("#args_table").hide();
 
-			function get_args() {
+			function deployable() {
 				$("#deploy")[0].disabled = false;
-				$("#args_table").show();
 			}
+
+			function deploy() {
+				e = document.getElementById("contract_selection");
+				T = new (eval (e.options[e.selectedIndex].value))
+				alert(T.address);
+			}
+			
+
+
 		</script>
 	</body>
 </html>

@@ -1,64 +1,40 @@
-var info = require('./contracts.json')["Wallet"];
-	info.interface = JSON.parse(info.interface);
+module.exports = Wallet;
+
 var Web3 = require('web3');
-const HOST = "127.0.01";
-const PORT = 8545;
-
-
-module.exports.new = function () {
-	connect(HOST,PORT);
-	var args = Array.from(arguments);
-	contract = deploy({
-		data: info.bytecode,
-		gas: info.gasEstimates.creation[1]
-	});
-	return contract;
-}
 
 
 
+var interface = [{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"balance","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"_token_addr","type":"address"}],"type":"constructor"}]
+;
 
-function connect() {
-	var args = Array.from(arguments);
-	if (typeof(web3)  === "undefined") {
-		web3 = new Web3(
+
+if (typeof (window) !== "undefined") {
+	var web3 = typeof window.web3 !== 'undefined' ? window.web3 : new Web3();
+	if (typeof web3.currentProvider !== 'undefined')
+		web3.setProvider(window.web3.currentProvider)
+	else web3.setProvider(
 			new Web3.providers.HttpProvider(
-				"http://" + HOST + ":" + PORT));
+				"http:\/\/localhost:8545"));	
+} else {
+	if (typeof (web3) === "undefined") {
+		web3 = new Web3(new Web3.providers.HttpProvider(
+			"http:\/\/localhost:8545"));
 		web3.eth.defaultAccount = web3.eth.accounts[0];
 	}
 }
+function Wallet () {
+	var contract = web3.eth.contract(interface);
+	contract.new({
+		from: web3.eth.accounts[0],
+		data: '606060405260405160208061031b833981016040528080519060200190919050505b5b33600060006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908302179055505b80600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908302179055505b50610292806100896000396000f360606040526000357c010000000000000000000000000000000000000000000000000000000090048063a9059cbb14610047578063b69ef8a81461006d57610042565b610002565b346100025761006b6004808035906020019091908035906020019091905050610095565b005b346100025761007f60048050506101aa565b6040518082815260200191505060405180910390f35b600060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614156101a057600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663a9059cbb8383604051837c0100000000000000000000000000000000000000000000000000000000028152600401808373ffffffffffffffffffffffffffffffffffffffff16815260200182815260200192505050600060405180830381600087803b156100025760325a03f115610002575050505b6101a5565b610002565b5b5050565b6000600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166370a08231600060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16600060405160200152604051827c0100000000000000000000000000000000000000000000000000000000028152600401808273ffffffffffffffffffffffffffffffffffffffff168152602001915050602060405180830381600087803b156100025760325a03f1156100025750505060405180519060200150905061028f565b9056',
+		gas: 3000000},
+		(err,contract) => {
+			if (contract.address) {
+				Object.keys(contract).forEach((key)=>{
+					this[key] = contract[key];
+				})
 
-function deploy (args)  {
-	if (typeof(web3) === "undefined")
-		connect(HOST,PORT);
-	contract = web3.eth.contract(info.interface);
-
-	keys = Object.keys(args);
-	Tx = {};
-	for (i = 0; i < keys.length; i++) {
-		Tx[keys[i]] = args[keys[i]];
-	}
-
-	address = sendTx(Tx);
-	return contract.at(address);
+			}
+		}
+	)
 }
-
-
-
-function sendTx () {
-	tx_obj = {};
-	if (typeof(args) !== "undefined" )  {
-		Object.keys(args).forEach((arg)=>{
-			tx_obj[arg] = args[arg];
-		})
-	}
-
-	txHash = web3.eth.sendTransaction(tx_obj);
-
-	if (!tx_obj.data)
-		return txHash;
-
-	return getTxReceipt(txHash).contractAddress	;
-}
-
-function getTxReceipt(txHash) {return web3.eth.getTransactionReceipt(txHash);}
