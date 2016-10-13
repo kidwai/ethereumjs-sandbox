@@ -107,8 +107,9 @@ localhost:8545 > Ticker.val()
 
 Deploy your contracts to a different provider, without invoking `connect`.
 
-```
+```javascript
 > T = new Ticker("http://localhost:8546")
+```
 
 Here is an example session after running `npm run testrpc` and `geth --rpc --rpcport 8546 --unlock 0`.
 
