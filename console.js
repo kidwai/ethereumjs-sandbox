@@ -12,23 +12,12 @@ session = repl.start({
 	prompt: '> ',
 	ignoreUndefined: true
 });
-
-<<<<<<< HEAD
 connect(provider);
 session.context.connect = connect;
-=======
-session.context.web3 = new Web3(
-	new Web3.providers.HttpProvider(
-		"http:\/\/" + HOST + ":" + PORT));
-
-
->>>>>>> 0d8043ca0259546a21048ebe49a8222bc4c18de4
-
 var modules = contracts.load();
 Object.keys(modules).forEach((module)=>{
 	session.context[module] = modules[module];
 });
-<<<<<<< HEAD
 
 
 
@@ -38,5 +27,3 @@ function connect(provider) {
 	session.context.web3 = new Web3(
 		new Web3.providers.HttpProvider(provider));
 }
-=======
->>>>>>> 0d8043ca0259546a21048ebe49a8222bc4c18de4
