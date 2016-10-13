@@ -16,7 +16,7 @@ Install node dependencies.
 npm install
 ```
 
-If you want to use geth instead of testrpc,
+To install geth instead, run
 
 
 ```
@@ -24,14 +24,18 @@ sudo add-apt-repository ppa:ethereum/ethereum -y
 sudo apt-get-update
 sudo apt-get install ethereum
 ```
+For parity, use the one line installer 
 
-will install go-ethereum. 
+```
+bash <(curl https://get.parity.io -Lk)
+```
+
 
 ## Quick Start
 
 Write your contracts in `contracts/solidity`.
 
-```
+```javascript
 contract Ticker {
 	uint public val;
 	function tick (){
@@ -94,7 +98,7 @@ $ npm stop
 ```
 
 
-To connect to a different RPC provider at the console, run `node console <host>:port`.
+To connect to a different RPC provider at the console, run `node console <host>:<port>`.
 
 ### Contracts
 
