@@ -59,7 +59,7 @@ $ npm run testrpc
 
 Start the console
 
-```
+```javascript
 $ node console
 localhost:8545 > web3.eth.accounts
 [ '0xd07bfe65fa97bd9dc43a64a5f3fc9e3bb4917f96',
@@ -78,13 +78,13 @@ localhost:8545 > web3.eth.accounts
 Deploy your contracts.
 
 
-```
+```javascript
 localhost:8545 > Ticker = new Ticker()
 ```
 
 Invoke their functions.
 
-``` 
+```javascript
 localhost:8545 > Ticker.tick()
 '0x6b20a2cd8da357fd5cb851bea7f5896130bf7f2b753af877bddfbd11433a889d'
 localhost:8545 > Ticker.val()
