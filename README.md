@@ -71,10 +71,32 @@ $ node console
 
 ```
 
-Deploy your contracts.
+To modify the sessions web3 object, use `connect`
+
+
+```javascript 
+> connect()
+> web3.eth.accounts
+[ '0xd5ae02ae9518c9145cb03a571aa91fe7da465ccf',
+  '0x6f30550cbceacab1bee7415dcfbbadffa74cbb2b',
+  '0xf2e36370f561b13b82be5ce37a6897c11aaebb35',
+  '0xc190125e14a1d7a5bc1452853e89f8c5046dc8b0',
+  '0x4e8202d4e98a72c63c79bb6f432651c1aaddaaf8',
+  '0x678b9d58213bba52fb37592e983a558a9262f36e',
+  '0xaea35a2082957802b6ad9d40915b334e87750dcd',
+  '0x46e834598a3d84b127bb43371e6acf670181b0c2',
+  '0x3b75f048c51381ab81a957c9bb1ceb4075d7ddb5',
+  '0x014e3d31ba46d7258e208314db807dfeb0534546' ]
+> connect("http://localhost:8546")
+> web3.eth.accounts
+[ '0xd8182ab532270bc51d3234611c7501f5dc558298',
+  '0x1ab3eaedbbfa5afc3574160decae8c5152257463' ]
+```
+
+Deploy your contracts to the current provider.
 
 ```javascript
-> Ticker = new Ticker()
+> T = new Ticker()
 Tx Hash: 0xb433d1b4df5649b2632e1bedf487f36696cf821e40fb990c9b92054badcd11b9
 Contract mined: 0x26402dcf58927cf5e53949e27cfbe297697c328c
 localhost:8545 > Ticker.tick()
@@ -83,26 +105,19 @@ localhost:8545 > Ticker.val()
 { [String: '1'] s: 1, e: 0, c: [ 1 ] }
 ```
 
-
-If, additionally, we run geth with 
+Deploy your contracts to a different provider, without invoking `connect`.
 
 ```
-$ geth --rpc --rpcport 8546 --unlock 0
-```
+> T = new Ticker("http://localhost:8546")
 
-We can deploy contracts here with
+Here is an example session after running `npm run testrpc` and `geth --rpc --rpcport 8546 --unlock 0`.
 
-
-```javascript
-> Ticker = new Ticker("http://localhost:8546")
-```
-
-Here is an example session using both testrpc and geth.
 
 ```javascript
 > test_ticker = new Ticker()
 Ticker { provider: 'http://localhost:8545' }
 > Tx Hash: 0xf862b5884eb992147a1ede71f2dd6d78ca65b936adf186d57f079e1d04085984
+
 Contract mined: 0x6cee6639d4bafc627516db5e12dace4ae88f8f01
 
 > geth_ticker = new Ticker("http://localhost:8546")
@@ -120,6 +135,8 @@ Ticker { provider: 'http://localhost:8546' }
 > geth_ticker.val()
 { [String: '1'] s: 1, e: 0, c: [ 1 ] }
 ```
+
+To stop testrpc, run `npm stop`.
 
 
 To use these in the browser, run `npm run browserify`. See the html in the `web` folder for a simple page using semantic UI. More documentation to come.
