@@ -1,33 +1,16 @@
-## EthereumJS Sandbox
+## ethereumjs-sandbox
 
-This is a rough sketch of some JS components that can be used to play with Solidity contracts at the command line, or in the browser. 
+A simple environment to get start with Ethereum.
 
-## Installation
-
-Clone this repository.
+### TL;DR
 
 ```
-git clone https://github.com/kidwai/ethereumjs-sandbox
+$ git clone https://github.com/kidwai/ethereumjs-sandbox
+$ npm install
 ```
 
-Install node dependencies.
 
-```
-npm install
-```
-
-If you want to use geth instead of testrpc,
-
-
-```
-sudo add-apt-repository ppa:ethereum/ethereum -y
-sudo apt-get-update
-sudo apt-get install ethereum
-```
-
-will install go-ethereum. 
-
-## Quick Start
+### Write Contracts
 
 Write your contracts in `contracts/solidity`.
 
